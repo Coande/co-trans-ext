@@ -41,7 +41,7 @@ chrome.webRequest.onHeadersReceived.addListener(
         // append "https://fanyi.sogou.com/" to the authorized sites
         csp = csp.replace(
           'frame-src',
-          'frame-src fanyi.sogou.com fanyi.baidu.com translate.google.cn m.youdao.com'
+          'frame-src fanyi.sogou.com fanyi.baidu.com translate.google.cn m.youdao.com m.iciba.com'
         );
         csp = csp.replace('style-src', 'style-src at.alicdn.com');
         csp = csp.replace('font-src', 'font-src at.alicdn.com data:');

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css"
+    href="css/extension.css"/>
+  <style>
+    .trans-ext__popup {
+      position: relative;
+      width: 450px;
+      height: 450px;
+    }
+  </style>
+</head>
+<body>
+    <div class="trans-ext__popup">
+      <div class="trans-ext__title-bar">
+        <div class="trans-ext__title-center">
+          <i class="iconfont icon-sogou trans-ext__tool" data-trans-tool="sogou" title="搜狗翻译"></i>
+          <i class="iconfont icon-baidu trans-ext__tool" data-trans-tool="baidu" title="百度翻译"></i>
+          <i class="iconfont icon-google1 trans-ext__tool" data-trans-tool="google" title="谷歌翻译"></i>
+        </div>
+        <div class="trans-ext__title-right">
+          <i class="iconfont icon-yandex trans-ext__trans-page-yandex" title="Yandex网页翻译"></i>
+        </div>
+      </div>
+      <iframe class="trans-ext__iframe" allow="microphone"></iframe>
+    </div>
+
+    <script src="lib/jquery-3.4.0.slim.min.js"></script>
+    <script src="js/load-resource.js"></script>
+    <script src="js/extData.js"></script>
+    <script src="js/popup.js"></script>
+</body>
+</html>

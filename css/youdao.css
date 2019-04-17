@@ -1,0 +1,39 @@
+/* 有时候顶部会出现app广告 */
+div[style="position: absolute; top: 0px; left: 0px; z-index: 201;"] {
+  display: none !important;
+}
+
+/* 出现顶部app广告时会有个margin-top */
+.p-dict {
+  margin-top: 0 !important;
+}
+
+/* 页面头部，分词典和翻译，但是翻译不能用了，一律隐藏掉 */
+.nav-label {
+  display: none !important;
+}
+
+/* 搜索内容输入框 */
+body:not(.trans-ext-detail) .search-area {
+  display: none;
+}
+
+/* 基本释义右上角纠错按钮 */
+.ec h2 .amend {
+  display: none;
+}
+
+/* 底部App广告 */
+.dict-dl {
+  display: none !important;
+}
+
+/* 脚本备案信息 */
+#ft {
+  display: none;
+}
+
+/* 发音喇叭下面的音频大小 */
+.speech-size {
+  display: none;
+}

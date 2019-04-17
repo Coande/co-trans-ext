@@ -1,0 +1,66 @@
+/* 页面头部 */
+header.gb_ja {
+  display: none !important;
+}
+
+/* 页面内容高度调整（原来是页面高度减去了页头高度） */
+.frame {
+  height: 100% !important;
+}
+
+/* 语言选择区 */
+body:not(.trans-ext-detail) .ls-wrap {
+  display: none;
+}
+
+/* 内容输入区 */
+body:not(.trans-ext-detail) #input-wrap {
+  display: none;
+}
+
+/* 内容输入区工具条 */
+body:not(.trans-ext-detail) .source-header {
+  display: none;
+}
+
+/* 包裹内容输入区和发音区的元素 */
+body:not(.trans-ext-detail) .source-input {
+  padding: 0 !important;
+}
+
+/* 内容输入区下语音工具栏定位 */
+body:not(.trans-ext-detail) .source-or-target-footer {
+  position: relative !important;
+  bottom: auto !important;
+  left: auto !important;
+}
+
+/* 音标 */
+body:not(.trans-ext-detail) .transliteration-container {
+  margin-top: 0 !important;
+}
+
+/* 语音输入按钮 */
+body:not(.trans-ext-detail) .source-or-target-footer-button.speech-wrap {
+  display: none !important;
+}
+
+/* 输入内容框右下方手写输入按钮 */
+.source-input-tools {
+  display: none !important;
+}
+
+/* 翻译结果右下角更多按钮（包含反馈和分享） */
+.more-wrapper {
+  display: none;
+}
+
+/* 底部反馈按钮 */
+.feedback-link {
+  display: none;
+}
+
+/* 底部历史记录按钮 */
+.gp-footer {
+  display: none;
+}

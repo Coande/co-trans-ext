@@ -1,0 +1,54 @@
+.J-logo {
+  display: none;
+}
+
+body:not(.trans-ext-detail) .J-langselect {
+  display: none;
+}
+
+body:not(.trans-ext-detail) #textarea-source {
+  display: none;
+}
+
+/* 由于默认为隐藏，js计算到高度为0，添加个最少高度恢复样式 */
+body.trans-ext-detail #textarea-source {
+  min-height: 26px;
+}
+
+body:not(.trans-ext-detail) .form-clear {
+  display: none;
+}
+
+body:not(.trans-ext-detail) .box-from-text .box-voice {
+  margin: 0 !important;
+}
+
+body:not(.trans-ext-detail) .box-voice {
+  padding-top: 0 !important;
+}
+
+body:not(.trans-ext-detail) .box-from-text {
+  padding: 5px 15px !important;
+}
+
+body:not(.trans-ext-detail) .box-to-text pre {
+  margin: 0 !important;
+}
+
+/* 翻译结果右下角搜狗搜索按钮 */
+.box-to-text .toolbox .btn-search {
+  display: none;
+}
+
+.ap-box {
+  display: none !important;
+}
+
+/* 页面脚部搜索app广告 */
+.J-promotion-cz-bottom {
+  display: none;
+}
+
+body:not(.trans-ext-detail) .translation-from-text {
+  display: none;
+}

@@ -1,0 +1,34 @@
+/* 网页头部 */
+.fanyi-sfr-container .header#shoubai-header {
+  display: none !important;
+}
+
+/* 语言选择栏 */
+body:not(.trans-ext-detail) .fanyi-sfr-container .translang {
+  display: none !important;
+}
+
+/* 内容输入框 */
+body:not(.trans-ext-detail) .fanyi-sfr-container .trans-input {
+  display: none;
+}
+
+/* 页面底部百度翻译app广告 */
+.fanyi-sfr-container .bottom-intro {
+  display: none !important;
+}
+
+/* 翻译结果下面的百度翻译app广告 */
+.fanyi-sfr-container .app-bar {
+  display: none !important;
+}
+
+/* 翻译来源条（如结果来自金山词霸） */
+.fanyi-sfr-container .concise-dict .dict-origin-wrap {
+  display: none !important;
+}
+
+/* 如果关键字为空时，会在底部显示英文文章 */
+.fanyi-sfr-container .article {
+  display: none !important;
+}

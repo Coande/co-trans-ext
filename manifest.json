@@ -13,7 +13,7 @@
       "matches": ["<all_urls>"],
       "exclude_globs": ["*x-from=co-translate-extension*"],
       "all_frames": true,
-      "js": ["lib/jquery-3.4.0.slim.min.js", "js/load-resource.js", "js/extData.js", "js/content-script.js", "js/page-trans-youdao.js"],
+      "js": ["lib/jquery-3.4.0.slim.min.js", "js/load-resource.js", "js/extData.js", "js/content-script.js"],
       "css": ["css/extension.css"]
     },
     {
@@ -45,6 +45,12 @@
       "matches": ["*://m.youdao.com/*x-from=co-translate-extension*"],
       "css": ["css/base.css", "css/youdao.css"],
       "js": ["js/utils.js", "js/iframe-messager.js"]
+    },
+    {
+      "all_frames": true,
+      "matches": ["*://m.iciba.com/*x-from=co-translate-extension*"],
+      "css": ["css/base.css", "css/kingsoft.css"],
+      "js": ["js/utils.js", "js/iframe-messager.js"]
     }
   ],
   "homepage_url": "https://e12e.com",
@@ -55,5 +61,6 @@
   "permissions": ["webRequest", "webRequestBlocking", "<all_urls>"],
   "update_url": "http://clients2.google.com/service/update2/crx",
   "web_accessible_resources": [
+    "lib/youdao-web-translate/*"
   ]
 }

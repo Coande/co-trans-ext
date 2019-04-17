@@ -1,0 +1,81 @@
+/* 顶部导航 */
+.body-week-up .nav {
+  display: none;
+}
+
+/* 输入区域 */
+.index-main {
+  top: 0 !important;
+}
+
+/* 修正输入框文字不垂直居中问题 */
+.index-input-main {
+  padding: 0 6px 0 0.3611111111rem !important;
+}
+
+.index-top .index-main {
+  top: 0 !important;
+}
+body:not(.trans-ext-detail) .index-top .index-main {
+  display: none !important;
+}
+
+/* 翻译结果有margin-top */
+body.trans-ext-detail {
+  margin-top: 0;
+}
+
+body.trans-ext-detail .index .result {
+  margin-top: 59px !important;
+}
+
+body:not(.trans-ext-detail) .index .result {
+  margin-top: 0 !important;
+}
+
+/* 底部悬浮App广告 */
+.dic-follow {
+  display: none !important;
+}
+/* 去掉广告后的空白 */
+#dic {
+  padding-bottom: 0 !important;
+}
+
+/* 打开app查看全部按钮 */
+.dic-more {
+  display: none !important;
+}
+
+/* 牛津词典，需要app中才能用 */
+.dic-nav li:nth-child(2) {
+  display: none;
+}
+
+
+/* 柯林斯 词典 */
+/* app广告 */
+.download-text {
+  display: none !important;
+}
+/* 去掉广告后的空白 */
+.dic-collins {
+ padding-bottom: .6944444444rem !important;
+}
+
+
+/* 当没有关键词时 */
+/* 页头padding */
+.index-bg {
+  padding-top: 0 !important;
+}
+
+/* 底部广告 */
+.index-bg {
+  display: none;
+}
+
+/* 偶尔会弹出全屏的App广告 */
+.download-swiper {
+  display: none !important;
+}

@@ -3,7 +3,7 @@
 chrome.webRequest.onBeforeSendHeaders.addListener(
   function(details) {
     console.log('details==', details);
-    var headers = details.requestHeaders;
+    const headers = details.requestHeaders;
     let i = 0;
     for (const l = headers.length; i < l; ++i) {
       if (headers[i].name == 'User-Agent') {
@@ -84,6 +84,15 @@ function isXFrameOptions(headerName) {
 // 判断refer是否包含 co-translate-extension，保持 co-translate-extension 的存在
 // 参考了 https://stackoverflow.com/questions/26720766/redirecting-those-urls-which-are-not-having-any-referrer-urls
 var requestsToRedirect = new Object();
+
+// 兼容 extraHeaders
+const extraInfoSpec = ['blocking', 'requestHeaders'];
+if (
+  chrome.webRequest.OnBeforeSendHeadersOptions.hasOwnProperty('EXTRA_HEADERS')
+) {
+  extraInfoSpec.push('extraHeaders');
+}
+
 chrome.webRequest.onBeforeSendHeaders.addListener(
   function(details) {
     // get请求才做重定向
@@ -91,7 +100,7 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
       return;
     }
 
-    var headers = details.requestHeaders;
+    const headers = details.requestHeaders;
     let i = 0;
     for (const l = headers.length; i < l; ++i) {
       if (isHeaderNameEqual(headers[i].name, 'Referer')) {
@@ -100,7 +109,6 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
     }
 
     if (i < headers.length) {
-      
       // block 掉 百度统计，影响速度
       if (
         headers[i].value.indexOf('x-from=co-translate-extension') !== -1 &&
@@ -122,8 +130,9 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
   {
     urls: ['<all_urls>']
   },
-  // 72版本起，访问refer可能需要extraHeaders
-  ['requestHeaders', 'blocking']
+  // 72版本起，访问refer需要extraHeaders，72之前加了会报错，需要兼容
+  // https://groups.google.com/a/chromium.org/d/msg/chromium-extensions/vYIaeezZwfQ/hVln6g1OAgAJ
+  extraInfoSpec
 );
 
 chrome.webRequest.onHeadersReceived.addListener(
@@ -132,7 +141,7 @@ chrome.webRequest.onHeadersReceived.addListener(
       const referUrl = requestsToRedirect[details.requestId];
       delete requestsToRedirect[details.requestId];
 
-      var headers = details.responseHeaders;
+      const headers = details.responseHeaders;
       let i = 0;
       for (const l = headers.length; i < l; ++i) {
         if (isHeaderNameEqual(headers[i].name, 'content-type')) {

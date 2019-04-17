@@ -21,6 +21,7 @@ const transExt = $(`
         <i class="iconfont icon-baidu trans-ext__tool" data-trans-tool="baidu" title="百度翻译"></i>
         <i class="iconfont icon-google1 trans-ext__tool" data-trans-tool="google" title="谷歌翻译"></i>
         <i class="iconfont icon-youdao trans-ext__tool" data-trans-tool="youdao" title="有道翻译"></i>
+        <i class="iconfont icon-kingsoft trans-ext__tool" data-trans-tool="kingsoft" title="金山词霸"></i>
       </div>
       <div class="trans-ext__title-right">
         <i class="iconfont icon-zhankai1 trans-ext__tool-down" title="显示更多"></i>
@@ -113,7 +114,7 @@ function showPopup(event) {
   event.stopPropagation();
 
   // 加载图标
-  loadCSS('//at.alicdn.com/t/font_1141105_2js3u99kjtq.css', 'iconfont');
+  loadCSS('//at.alicdn.com/t/font_1141105_4dqgo0hxye9.css', 'iconfont');
 
   transIframe.attr(
     'src',
@@ -162,7 +163,7 @@ $(document).mouseup(function(event) {
     }
 
     transBtn.css({
-      top: event.pageY + 15,
+      top: event.pageY - 15,
       left: event.pageX + 15
     });
     transPopup.hide();
@@ -241,20 +242,5 @@ window.addEventListener('message', function(event) {
   if (event.data.keyup) {
     isMoving = false;
     console.log('yes');
-  }
-});
-
-// 监听翻译网页事件
-chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-  if (request.transPage) {
-    if (request.transPage.use === 'yandex') {
-      window.open(
-        `https://translate.yandex.com/translate?url=${
-          window.location.href
-        }&lang=en-zh`
-      );
-    } else if (request.transPage.use === 'youdao') {
-      // 有道网页翻译
-    }
   }
 });

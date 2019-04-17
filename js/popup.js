@@ -3,7 +3,7 @@ const transExt = $('.trans-ext__popup');
 const transIframe = $('.trans-ext__iframe');
 
 // 加载图标
-loadCSS('https://at.alicdn.com/t/font_1141105_2js3u99kjtq.css', 'iconfont');
+loadCSS('https://at.alicdn.com/t/font_1141105_4dqgo0hxye9.css', 'iconfont');
 transIframe.attr(
   'src',
   `${data
@@ -34,12 +34,21 @@ transExt.find(`.trans-ext__tool`).click(function(event) {
 });
 
 // 网页翻译
-transExt.find('.trans-ext__trans-page-yandex').click(function() {
+transExt.find('.trans-ext__trans-page-tool').click(function() {
+  const transTool = $(this).data('trans-tool');
   chrome.tabs.getSelected(null, function(tab) {
-    chrome.tabs.sendRequest(tab.id, {
-      transPage: {
-        use: 'yandex'
-      }
-    });
+    if (transTool === 'yandex') {
+      window.open(
+        `https://translate.yandex.com/translate?url=${tab.url}&lang=en-zh`
+      );
+    } else if (transTool === 'youdao') {
+      // 有道网页翻译
+      chrome.tabs.executeScript(tab.id, {
+        file: 'lib/youdao-web-translate/web2/seed.js'
+      });
+      chrome.tabs.insertCSS(tab.id, {
+        file: 'lib/youdao-web-translate/web2/styles/cover.css'
+      });
+    }
   });
 });

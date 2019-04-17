@@ -23,7 +23,9 @@ extData.prototype.get = function(key) {
     google:
       'https://translate.google.cn/?x-from=co-translate-extension&showDetail=SHOWDETAIL#view=home&op=translate&sl=auto&tl=zh-CN&text=KEYWORD',
     youdao:
-      'https://m.youdao.com/dict?le=eng&q=KEYWORD&x-from=co-translate-extension&showDetail=SHOWDETAIL'
+      'https://m.youdao.com/dict?le=eng&q=KEYWORD&x-from=co-translate-extension&showDetail=SHOWDETAIL',
+    kingsoft:
+      'https://m.iciba.com/KEYWORD?x-from=co-translate-extension&showDetail=SHOWDETAIL'
   };
   let val;
   try {

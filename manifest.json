@@ -1,8 +1,8 @@
 {
-  "name": "sogou translate extension",
+  "name": "co-trans-ext 翻译工具",
   "version": "1.0",
   "manifest_version": 2,
-  "description": "一款包含搜狗翻译、百度翻译、Google翻译的工具",
+  "description": "一款集搜狗翻译、百度翻译、Google翻译、有道翻译、金山词霸于一体的翻译工具",
   "browser_action": {
     "default_icon": "img/logo-200.png",
     "default_title": "翻译工具",
@@ -37,7 +37,7 @@
     {
       "run_at": "document_start",
       "all_frames": true,
-      "matches": ["*://m.youdao.com/*x-from=co-translate-extension*"],
+      "matches": ["*://*/*x-from=co-translate-extension*"],
       "js": ["js/fake-navigator.js"]
     },
     {

@@ -37,3 +37,21 @@ body:not(.trans-ext-detail) .search-area {
 .speech-size {
   display: none;
 }
+
+/* 没有keyword时的页面 */
+/* 顶部App广告 */
+div[style*="position: fixed; top: 0px; left: 0px;"] {
+  display: none;
+}
+
+.logo {
+  display: none;
+}
+
+body {
+  margin-top: 0 !important;
+}
+
+.other-links {
+  display: none;
+}

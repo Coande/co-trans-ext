@@ -2,7 +2,6 @@
 // 该部分参考了：https://github.com/jugglinmike/chrome-user-agent/blob/master/src/background.js
 chrome.webRequest.onBeforeSendHeaders.addListener(
   function(details) {
-    console.log('details==', details);
     const headers = details.requestHeaders;
     let i = 0;
     for (const l = headers.length; i < l; ++i) {
@@ -123,6 +122,18 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
         details.url.indexOf('x-from=co-translate-extension') === -1;
       if (needAddQuery) {
         requestsToRedirect[details.requestId] = headers[i].value;
+        return;
+      }
+    }
+
+    // 有道比较特殊，如果没有关键字参数会302跳转，且不一定有refer（直接访问时），导致丢失 x-from
+    if (details.url.indexOf('m.youdao.com/dict') !== -1) {
+      if (
+        details.url.indexOf('x-from=co-translate-extension') !== -1 &&
+        !new URL(details.url).searchParams.get('q')
+      ) {
+        requestsToRedirect[details.requestId] = details.url;
+        return;
       }
     }
     return;
@@ -148,9 +159,25 @@ chrome.webRequest.onHeadersReceived.addListener(
           break;
         }
       }
+      // 当响应的是html 或者 响应码是3xx 时才需要处理
       if (i < headers.length) {
         if (headers[i].value.indexOf('text/html') !== -1) {
           const urlObj = new URL(details.url);
+          urlObj.searchParams.set('x-from', 'co-translate-extension');
+          const showDetail = new URL(referUrl).searchParams.get('showDetail');
+          urlObj.searchParams.set('showDetail', showDetail);
+          return { redirectUrl: urlObj.href };
+        }
+      }
+      if (`${details.statusCode}`.startsWith('3')) {
+        i = 0;
+        for (const l = headers.length; i < l; ++i) {
+          if (isHeaderNameEqual(headers[i].name, 'Location')) {
+            break;
+          }
+        }
+        if (i < headers.length) {
+          const urlObj = new URL(headers[i].value);
           urlObj.searchParams.set('x-from', 'co-translate-extension');
           const showDetail = new URL(referUrl).searchParams.get('showDetail');
           urlObj.searchParams.set('showDetail', showDetail);

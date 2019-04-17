@@ -1,0 +1,4 @@
+/* 部分网页把iframe隐藏掉了，如Google */
+iframe.OUTFOX_JTR_BAR {
+  display: block !important;
+}

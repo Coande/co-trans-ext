@@ -4,7 +4,11 @@ function extData() {
 }
 
 extData.prototype.set = function(key, value) {
-  localStorage.setItem(key, value);
+  try {
+    localStorage.setItem(key, value);
+  } catch (error) {
+    // ignore
+  }
   this[key] = value;
 };
 
@@ -21,7 +25,12 @@ extData.prototype.get = function(key) {
     youdao:
       'https://m.youdao.com/dict?le=eng&q=KEYWORD&x-from=co-translate-extension&showDetail=SHOWDETAIL'
   };
-  const val = localStorage.getItem(key);
+  let val;
+  try {
+    val = localStorage.getItem(key);
+  } catch (error) {
+    // ignore
+  }
   if (val === null) {
     return defaultOptions[key];
   }

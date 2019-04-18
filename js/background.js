@@ -72,7 +72,7 @@ chrome.webRequest.onHeadersReceived.addListener(
     }
     if (xFrameOptionsIndex !== -1) {
       // 删除这个响应头
-      details.responseHeaders.splice(i, 1);
+      details.responseHeaders.splice(xFrameOptionsIndex, 1);
     }
 
     return {

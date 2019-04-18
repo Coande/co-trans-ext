@@ -33,8 +33,9 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
 // Listens when new request
 chrome.webRequest.onHeadersReceived.addListener(
   function(details) {
+    let xFrameOptionsIndex = -1;
     for (i = 0; i < details.responseHeaders.length; i++) {
-      if (isCSPHeader(details.responseHeaders[i].name.toUpperCase())) {
+      if (isCSPHeader(details.responseHeaders[i].name)) {
         var csp = details.responseHeaders[i].value;
 
         // 有可能只有default-src或者child-src
@@ -65,10 +66,13 @@ chrome.webRequest.onHeadersReceived.addListener(
         details.responseHeaders[i].value = csp;
       }
 
-      if (isXFrameOptions(details.responseHeaders[i].name.toUpperCase())) {
-        // 删除这个响应头
-        details.responseHeaders.splice(i, 1);
+      if (isXFrameOptions(details.responseHeaders[i].name)) {
+        xFrameOptionsIndex = i;
       }
+    }
+    if (xFrameOptionsIndex !== -1) {
+      // 删除这个响应头
+      details.responseHeaders.splice(i, 1);
     }
 
     return {
@@ -88,8 +92,9 @@ function isHeaderNameEqual(name1, name2) {
 
 function isCSPHeader(headerName) {
   return (
-    isHeaderNameEqual(headerName, 'CONTENT-SECURITY-POLICY') ||
-    isHeaderNameEqual(headerName, 'X-WEBKIT-CSP')
+    isHeaderNameEqual(headerName, 'content-security-policy') ||
+    isHeaderNameEqual(headerName, 'x-webkit-csp') ||
+    isHeaderNameEqual(headerName, 'x-content-security-policy')
   );
 }
 

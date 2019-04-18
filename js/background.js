@@ -37,13 +37,30 @@ chrome.webRequest.onHeadersReceived.addListener(
       if (isCSPHeader(details.responseHeaders[i].name.toUpperCase())) {
         var csp = details.responseHeaders[i].value;
 
+        // 有可能只有default-src或者child-src
+        csp = csp.replace(
+          'default-src',
+          'default-src fanyi.sogou.com fanyi.baidu.com translate.google.cn m.youdao.com m.iciba.com fanyi.youdao.com at.alicdn.com data: cidian.youdao.com'
+        );
+        csp = csp.replace(
+          'child-src',
+          'child-src fanyi.sogou.com fanyi.baidu.com translate.google.cn m.youdao.com m.iciba.com fanyi.youdao.com at.alicdn.com data: cidian.youdao.com'
+        );
+
         // append "https://fanyi.sogou.com/" to the authorized sites
         csp = csp.replace(
           'frame-src',
-          'frame-src fanyi.sogou.com fanyi.baidu.com translate.google.cn m.youdao.com m.iciba.com'
+          'frame-src fanyi.sogou.com fanyi.baidu.com translate.google.cn m.youdao.com m.iciba.com fanyi.youdao.com'
         );
-        csp = csp.replace('style-src', 'style-src at.alicdn.com');
+        csp = csp.replace(
+          'style-src',
+          'style-src at.alicdn.com fanyi.youdao.com'
+        );
         csp = csp.replace('font-src', 'font-src at.alicdn.com data:');
+        csp = csp.replace('img-src', 'img-src fanyi.youdao.com');
+
+        // 有道网页翻译语音
+        csp = csp.replace('object-src', 'object-src cidian.youdao.com');
 
         details.responseHeaders[i].value = csp;
       }
@@ -112,6 +129,14 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
       if (
         headers[i].value.indexOf('x-from=co-translate-extension') !== -1 &&
         details.url.indexOf('hm.baidu.com') !== -1
+      ) {
+        return { cancel: true };
+      }
+      // block掉广告
+      if (
+        details.url.indexOf(
+          '//dictionary.iciba.com/dictionary/getWebFeedsAd'
+        ) !== -1
       ) {
         return { cancel: true };
       }

@@ -4,20 +4,24 @@ const transIframe = $('.trans-ext__iframe');
 
 // 加载图标
 loadCSS('https://at.alicdn.com/t/font_1141105_4dqgo0hxye9.css', 'iconfont');
-transIframe.attr(
-  'src',
-  `${data
-    .get(data.get('transTool'))
-    .replace('KEYWORD', '')
-    .replace('SHOWDETAIL', true)}`
-);
+
+data.get('transTool', val => {
+  data.get(val, val2 => {
+    transIframe.attr(
+      'src',
+      val2.replace('KEYWORD', '').replace('SHOWDETAIL', true)
+    );
+  });
+});
 
 // 获取并高亮当前使用的搜索工具
-const activeTransTool = transExt.find(
-  `.trans-ext__tool[data-trans-tool=${data.get('transTool')}]`
-);
+data.get('transTool', val => {
+  const activeTransTool = transExt.find(
+    `.trans-ext__tool[data-trans-tool=${val}]`
+  );
 
-activeTransTool.addClass('active');
+  activeTransTool.addClass('active');
+});
 
 // 添加搜索工具图标点击事件
 transExt.find(`.trans-ext__tool`).click(function(event) {
@@ -27,10 +31,14 @@ transExt.find(`.trans-ext__tool`).click(function(event) {
     .find(`.trans-ext__tool[data-trans-tool=${transTool}]`)
     .addClass('active');
   data.set('transTool', transTool);
-  let iframeURL = data.get(data.get('transTool'));
-  iframeURL = iframeURL.replace('KEYWORD', '');
-  iframeURL = iframeURL.replace('SHOWDETAIL', true);
-  transIframe.attr('src', iframeURL);
+  data.get('transTool', val => {
+    data.get(val, val2 => {
+      transIframe.attr(
+        'src',
+        val2.replace('KEYWORD', '').replace('SHOWDETAIL', true)
+      );
+    });
+  });
 });
 
 // 网页翻译

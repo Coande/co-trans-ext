@@ -46,11 +46,13 @@ const transPopupTitleBar = transExt.find('.trans-ext__title-bar');
 transExt.find('.trans-ext__tool-up').hide();
 
 // 获取并高亮当前使用的搜索工具
-const activeTransTool = transExt.find(
-  `.trans-ext__tool[data-trans-tool=${data.get('transTool')}]`
-);
+data.get('transTool', val => {
+  const activeTransTool = transExt.find(
+    `.trans-ext__tool[data-trans-tool=${val}]`
+  );
 
-activeTransTool.addClass('active');
+  activeTransTool.addClass('active');
+});
 
 // 切换详细和简略
 transExt.find('.trans-ext__tool-down').click(function() {
@@ -88,13 +90,15 @@ transExt.find(`.trans-ext__tool`).click(function(event) {
     .find(`.trans-ext__tool[data-trans-tool=${transTool}]`)
     .addClass('active');
   data.set('transTool', transTool);
-  let iframeURL = data.get(data.get('transTool'));
-  iframeURL = iframeURL.replace('KEYWORD', encodeURIComponent(selectedText));
-  iframeURL = iframeURL.replace(
-    'SHOWDETAIL',
-    transExt.find('.trans-ext__tool-up').is(':visible')
-  );
-  transIframe.attr('src', iframeURL);
+  data.get(transTool, val => {
+    let iframeURL = val;
+    iframeURL = iframeURL.replace('KEYWORD', encodeURIComponent(selectedText));
+    iframeURL = iframeURL.replace(
+      'SHOWDETAIL',
+      transExt.find('.trans-ext__tool-up').is(':visible')
+    );
+    transIframe.attr('src', iframeURL);
+  });
 });
 
 // 默认显示收起
@@ -116,12 +120,23 @@ function showPopup(event) {
   // 加载图标
   loadCSS('//at.alicdn.com/t/font_1141105_4dqgo0hxye9.css', 'iconfont');
 
-  transIframe.attr(
-    'src',
-    data
-      .get(data.get('transTool'))
-      .replace('KEYWORD', encodeURIComponent(selectedText))
-  );
+  data.get('transTool', val => {
+    // 初始化并设置active
+    transExt.find('.trans-ext__tool').removeClass('active');
+    const activeTransTool = transExt.find(
+      `.trans-ext__tool[data-trans-tool=${val}]`
+    );
+    activeTransTool.addClass('active');
+
+    data.get(val, val2 => {
+      transIframe.attr(
+        'src',
+        val2
+          .replace('KEYWORD', encodeURIComponent(selectedText))
+          .replace('SHOWDETAIL', false)
+      );
+    });
+  });
 
   // 计算定位，避免超出可视范围
   // 参考 https://github.com/Selection-Translator/crx-selection-translate/blob/master/src/content-scripts/st/restrict.js

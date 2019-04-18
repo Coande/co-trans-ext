@@ -1,18 +1,13 @@
-function extData() {
-  // 部分页面的iframe可能被限制部分功能，导致无法使用localStorage
-  // Uncaught SecurityError: Failed to read the 'localStorage' property from 'Window': The document is sandboxed and lacks the 'allow-same-origin' flag
-}
+function extData() {}
 
-extData.prototype.set = function(key, value) {
-  try {
-    localStorage.setItem(key, value);
-  } catch (error) {
-    // ignore
-  }
+extData.prototype.set = function(key, value, callback) {
+  chrome.storage.sync.set({ [key]: value }, () => {
+    if (callback) callback();
+  });
   this[key] = value;
 };
 
-extData.prototype.get = function(key) {
+extData.prototype.get = function(key, callback) {
   const defaultOptions = {
     transTool: 'sogou',
     sogou:
@@ -27,14 +22,11 @@ extData.prototype.get = function(key) {
     kingsoft:
       'https://m.iciba.com/KEYWORD?x-from=co-translate-extension&showDetail=SHOWDETAIL'
   };
-  let val;
-  try {
-    val = localStorage.getItem(key);
-  } catch (error) {
-    // ignore
-  }
-  if (val === null) {
-    return defaultOptions[key];
-  }
-  return val;
+  chrome.storage.sync.get([key], result => {
+    if (result[key] === undefined) {
+      callback(defaultOptions[key]);
+      return;
+    }
+    callback(result[key]);
+  });
 };

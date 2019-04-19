@@ -3,15 +3,16 @@
   cursor: pointer;
   position: absolute;
   z-index: 99999;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   text-align: center;
-  line-height: 20px;
+  line-height: 18px;
   background-color: rgba(3, 169, 244, 0.9);
   border: 1px solid #ffffff;
   box-shadow: 0 0 2px 0px #1976D2;
   font-size: 14px;
   color: #ffffff;
+  box-sizing: border-box;
 }
 
 .trans-ext__popup {

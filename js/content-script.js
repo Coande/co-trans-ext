@@ -212,14 +212,13 @@ $(document).on('mousemove', function(event) {
     const moveY = event.clientY - startY;
 
     // 避免出现滚动条
-    const maxWidth = transPopup
-      .parent()
-      .parent()
-      .width();
-    const maxHeight = transPopup
-      .parent()
-      .parent()
-      .height();
+    let maxWidth, maxHeight;
+    if ($(document.body).width() < $(window).width()) {
+      maxWidth = $(window).width();
+    }
+    if ($(document.body).height() < $(window).height()) {
+      maxHeight = $(window).height();
+    }
 
     let realTopPos = startTop + moveY;
     let realLeftPos = startLeft + moveX;

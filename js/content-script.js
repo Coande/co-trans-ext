@@ -5,6 +5,18 @@ const data = new extData();
 // 弹窗移动相关数据
 // 翻译弹窗的移动
 let isMoving = false;
+
+// 处理拖动过程中事件可能被iframe捕获而丢失事件的问题
+// https://blog.csdn.net/zgrbsbf/article/details/71423401
+function setIsMoving(moving) {
+  isMoving = moving;
+  if (moving) {
+    transIframe.css('pointer-events', 'none');
+  } else {
+    transIframe.css('pointer-events', 'auto');
+  }
+}
+
 let startX = 0;
 let startY = 0;
 let startTop = 0;
@@ -174,13 +186,13 @@ $(document).mouseup(function(event) {
       .getSelection()
       .toString()
       .trim();
-  
+
     if (selectedText) {
       // 如果有选中的文本，显示“译”按钮
       if (!$('body').find(transExt).length) {
         $('body').append(transExt);
       }
-  
+
       transBtn.css({
         top: event.pageY + 15,
         left: event.pageX + 15
@@ -193,18 +205,18 @@ $(document).mouseup(function(event) {
       transBtn.hide();
       transPopup.hide();
       transIframe.attr('src', '');
-  
+
       // 恢复是否显示详情的箭头
       transExt.find('.trans-ext__tool-down').show();
       transExt.find('.trans-ext__tool-up').hide();
-  
-      isMoving = false;
+
+      setIsMoving(false);
     }
   }, 0);
 });
 
 $(transPopup).on('mousedown', '.trans-ext__title-bar', function(event) {
-  isMoving = true;
+  setIsMoving(true);
   startX = event.clientX;
   startY = event.clientY;
   startTop = transPopup.position().top;
@@ -250,17 +262,9 @@ $(document).on('mousemove', function(event) {
 
 // transPopup事件已经被阻止冒泡了，所以，document监听不到
 $(transPopup).on('mouseup', function() {
-  isMoving = false;
+  setIsMoving(false);
 });
 
 $(document).on('mouseup', function() {
-  isMoving = false;
-});
-
-// 处理移动时可能出现的跳动问题
-window.addEventListener('message', function(event) {
-  if (event.data.keyup) {
-    isMoving = false;
-    console.log('yes');
-  }
+  setIsMoving(false);
 });

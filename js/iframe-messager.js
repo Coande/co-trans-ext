@@ -17,8 +17,3 @@ if (isShowDetail === 'true') {
 } else {
   document.body.classList.remove('trans-ext-detail');
 }
-
-// 处理移动时可能发生的跳动问题
-document.addEventListener('mouseup', function(){
-  window.parent.postMessage({ keyup: true }, '*');
-});

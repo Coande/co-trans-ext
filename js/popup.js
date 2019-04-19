@@ -3,7 +3,7 @@ const transExt = $('.trans-ext__popup');
 const transIframe = $('.trans-ext__iframe');
 
 // 加载图标
-loadCSS('https://at.alicdn.com/t/font_1141105_4dqgo0hxye9.css', 'iconfont');
+loadCSS(chrome.extension.getURL('css/iconfont/iconfont.css'), 'iconfont');
 
 data.get('transTool', val => {
   data.get(val, val2 => {

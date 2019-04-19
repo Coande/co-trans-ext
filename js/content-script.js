@@ -118,7 +118,7 @@ function showPopup(event) {
   event.stopPropagation();
 
   // 加载图标
-  loadCSS('//at.alicdn.com/t/font_1141105_4dqgo0hxye9.css', 'iconfont');
+  loadCSS(chrome.extension.getURL('css/iconfont/iconfont.css'), 'iconfont');
 
   data.get('transTool', val => {
     // 初始化并设置active

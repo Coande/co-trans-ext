@@ -165,37 +165,42 @@ function showPopup(event) {
 }
 
 $(document).mouseup(function(event) {
-  // 获取选中的文本
-  selectedText = window
-    .getSelection()
-    .toString()
-    .trim();
-
-  if (selectedText) {
-    // 如果有选中的文本，显示“译”按钮
-    if (!$('body').find(transExt).length) {
-      $('body').append(transExt);
+  // 测试发现：选中文本后，再次keyup选中区域内内容才取消选中，keydown选中区域外内容马上取消选中
+  // 猜测：这是为了处理拖拽选中内容而这样设计的吧
+  // 异步获取选中的文本（会产生适当的延时），避免再次点击上次选中文本区域内时获取到上次选中内容的情况
+  setTimeout(() => {
+    // 获取选中的文本
+    selectedText = window
+      .getSelection()
+      .toString()
+      .trim();
+  
+    if (selectedText) {
+      // 如果有选中的文本，显示“译”按钮
+      if (!$('body').find(transExt).length) {
+        $('body').append(transExt);
+      }
+  
+      transBtn.css({
+        top: event.pageY + 15,
+        left: event.pageX + 15
+      });
+      transPopup.hide();
+      transIframe.attr('src', '');
+      transBtn.show();
+    } else {
+      // 如果没有选中文本，确保隐藏插件内容
+      transBtn.hide();
+      transPopup.hide();
+      transIframe.attr('src', '');
+  
+      // 恢复是否显示详情的箭头
+      transExt.find('.trans-ext__tool-down').show();
+      transExt.find('.trans-ext__tool-up').hide();
+  
+      isMoving = false;
     }
-
-    transBtn.css({
-      top: event.pageY - 15,
-      left: event.pageX + 15
-    });
-    transPopup.hide();
-    transIframe.attr('src', '');
-    transBtn.show();
-  } else {
-    // 如果没有选中文本，确保隐藏插件内容
-    transBtn.hide();
-    transPopup.hide();
-    transIframe.attr('src', '');
-
-    // 恢复是否显示详情的箭头
-    transExt.find('.trans-ext__tool-down').show();
-    transExt.find('.trans-ext__tool-up').hide();
-
-    isMoving = false;
-  }
+  }, 0);
 });
 
 $(transPopup).on('mousedown', '.trans-ext__title-bar', function(event) {
@@ -212,7 +217,8 @@ $(document).on('mousemove', function(event) {
     const moveY = event.clientY - startY;
 
     // 避免出现滚动条
-    let maxWidth, maxHeight;
+    let maxWidth = $(document.body).width();
+    let maxHeight = $(document.body).height();
     if ($(document.body).width() < $(window).width()) {
       maxWidth = $(window).width();
     }

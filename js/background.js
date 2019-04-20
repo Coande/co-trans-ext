@@ -3,15 +3,25 @@
 chrome.webRequest.onBeforeSendHeaders.addListener(
   function(details) {
     const headers = details.requestHeaders;
-    let i = 0;
-    for (const l = headers.length; i < l; ++i) {
-      if (headers[i].name == 'User-Agent') {
-        break;
+    // 百度翻译要特殊处理，除了首页，以下两个api也需要改user-agent才能获取到数据
+    // 且只有移动端才使用该api
+    // https://fanyi.baidu.com/basetrans
+    // https://fanyi.baidu.com/extendtrans
+    if (
+      details.url.indexOf('x-from=co-translate-extension') !== -1 ||
+      details.url.indexOf('fanyi.baidu.com/basetrans') !== -1 ||
+      details.url.indexOf('fanyi.baidu.com/extendtrans') !== -1
+    ) {
+      let i = 0;
+      for (const l = headers.length; i < l; ++i) {
+        if (headers[i].name == 'User-Agent') {
+          break;
+        }
       }
-    }
-    if (i < headers.length) {
-      headers[i].value =
-        'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1';
+      if (i < headers.length) {
+        headers[i].value =
+          'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1';
+      }
     }
     return {
       requestHeaders: headers
@@ -20,7 +30,8 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
   {
     urls: [
       '*://fanyi.sogou.com/*x-from=co-translate-extension*',
-      '*://fanyi.baidu.com/*x-from=co-translate-extension*',
+      // 百度翻译要特殊处理
+      '*://fanyi.baidu.com/*',
       '*://*.youdao.com/*x-from=co-translate-extension*',
       '*://*.ydstatic.com/*x-from=co-translate-extension*'
     ]

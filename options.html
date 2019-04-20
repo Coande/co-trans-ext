@@ -4,9 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>选项页 - co-trans-ext</title>
+  <link rel="stylesheet" type="text/css" href="css/options.css" />
 </head>
 <body>
-  Hello options!!
+    <div class="page-wrapper">
+      <div class="para">
+        <div class="para__title">
+          选项
+        </div>
+        <label><input id="isEnabledAnalytics" type="checkbox">向开发者发送统计数据</label>
+      </div>
+      <div class="para reward">
+        <div class="para__title">
+          赞赏
+        </div>
+        <div>
+          觉得不错?<a class="reward__button" target="_blank" href="https://reward.e12e.com/?app=co-trans-ext">赞赏</a> 一下我吧，以下为赞赏记录：
+        </div>
+        <div class="reward__list">
+          <iframe class="reward__list-iframe" src="https://reward.e12e.com/list.html?app=co-trans-ext">
+          </iframe>
+        </div>
+      </div>
+    </div>
+    <script src="lib/jquery-3.4.0.slim.min.js"></script>
+    <script src="js/extData.js"></script>
+    <script src="js/options.js"></script>
 </body>
 </html>

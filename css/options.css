@@ -1,0 +1,51 @@
+html {
+  font-size: 14px;
+  color: #555555;
+}
+
+body {
+  margin: 0;
+}
+
+input[type='checkbox'] {
+  vertical-align: top;
+}
+
+.page-wrapper {
+  padding: 20px;
+  width: 600px;
+  margin: 0 auto;
+}
+
+.para + .para {
+  margin-top: 30px;
+}
+
+.para__title {
+  font-size: 20px;
+  color: #333333;
+  margin-bottom: 10px;
+}
+
+.reward__button {
+  display: inline-block;
+  height: 24px;
+  line-height: 24px;
+  margin-left: 10px;
+  background: #03a9f4;
+  padding: 0 6px;
+  color: #ffffff;
+  text-decoration: none;
+}
+.reward__list {
+  width: 600px;
+  height: 400px;
+  margin-top: 10px;
+}
+
+.reward__list-iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+}

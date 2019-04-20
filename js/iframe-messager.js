@@ -1,6 +1,5 @@
 // iframe页面通讯
 // https://www.cnblogs.com/syll/p/8640329.html
-
 // 接收iframe外部通过postMessage传递过来的数据
 window.addEventListener('message', function(event) {
   if (event.data.op === 'showDetail') {
@@ -10,7 +9,7 @@ window.addEventListener('message', function(event) {
   }
 });
 
-// 接收query上的数据
+// 接收query上的数据并判断是否需要显示输入内容和语言切换等
 const isShowDetail = getQueryVariable(window.location.href, 'showDetail');
 if (isShowDetail === 'true') {
   document.body.classList.add('trans-ext-detail');

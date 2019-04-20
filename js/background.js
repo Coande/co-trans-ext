@@ -1,4 +1,9 @@
-// 拦截请求头，改为手机版以访问手机版网页
+// 请求头和响应头可能有不同大小写
+function isHeaderNameEqual(name1, name2) {
+  return name1.toLowerCase() === name2.toLowerCase();
+}
+
+/************************ 拦截请求头，改user-agent以访问手机版网页 *****************/
 // 该部分参考了：https://github.com/jugglinmike/chrome-user-agent/blob/master/src/background.js
 chrome.webRequest.onBeforeSendHeaders.addListener(
   function(details) {
@@ -14,7 +19,7 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
     ) {
       let i = 0;
       for (const l = headers.length; i < l; ++i) {
-        if (headers[i].name == 'User-Agent') {
+        if (isHeaderNameEqual(headers[i].name, 'User-Agent')) {
           break;
         }
       }
@@ -39,7 +44,14 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
   ['requestHeaders', 'blocking']
 );
 
-// 处理部分网站CPS限制导致插件不工作问题
+/*********************** 处理部分网站CSP限制导致插件不工作问题 ******************/
+function isCSPHeader(headerName) {
+  return (
+    isHeaderNameEqual(headerName, 'content-security-policy') ||
+    isHeaderNameEqual(headerName, 'x-webkit-csp') ||
+    isHeaderNameEqual(headerName, 'x-content-security-policy')
+  );
+}
 // 参考了：https://gist.github.com/dchinyee/5992397
 // Listens when new request
 chrome.webRequest.onHeadersReceived.addListener(
@@ -77,12 +89,14 @@ chrome.webRequest.onHeadersReceived.addListener(
         details.responseHeaders[i].value = csp;
       }
 
-      if (isXFrameOptions(details.responseHeaders[i].name)) {
+      if (
+        isHeaderNameEqual(details.responseHeaders[i].name, 'X-FRAME-OPTIONS')
+      ) {
         xFrameOptionsIndex = i;
       }
     }
     if (xFrameOptionsIndex !== -1) {
-      // 删除这个响应头
+      // 因为没有初始选项，删除这个响应头
       details.responseHeaders.splice(xFrameOptionsIndex, 1);
     }
 
@@ -97,21 +111,7 @@ chrome.webRequest.onHeadersReceived.addListener(
   ['blocking', 'responseHeaders']
 );
 
-function isHeaderNameEqual(name1, name2) {
-  return name1.toLowerCase() === name2.toLowerCase();
-}
-
-function isCSPHeader(headerName) {
-  return (
-    isHeaderNameEqual(headerName, 'content-security-policy') ||
-    isHeaderNameEqual(headerName, 'x-webkit-csp') ||
-    isHeaderNameEqual(headerName, 'x-content-security-policy')
-  );
-}
-
-function isXFrameOptions(headerName) {
-  return isHeaderNameEqual(headerName, 'X-FRAME-OPTIONS');
-}
+/*************** 保证从插件内跳转的网页都带 x-from=co-translate-extension 参数  ***********/
 
 // 判断refer是否包含 co-translate-extension，保持 co-translate-extension 的存在
 // 参考了 https://stackoverflow.com/questions/26720766/redirecting-those-urls-which-are-not-having-any-referrer-urls

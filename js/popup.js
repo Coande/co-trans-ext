@@ -1,4 +1,4 @@
-const data = new extData();
+const data = new ExtData();
 const transExt = $('.trans-ext__popup');
 const transIframe = $('.trans-ext__iframe');
 

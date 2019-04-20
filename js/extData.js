@@ -1,13 +1,14 @@
-function extData() {}
+// 数据存储操作对象
+function ExtData() {}
 
-extData.prototype.set = function(key, value, callback) {
+ExtData.prototype.set = function(key, value, callback) {
   chrome.storage.sync.set({ [key]: value }, () => {
     if (callback) callback();
   });
   this[key] = value;
 };
 
-extData.prototype.get = function(key, callback) {
+ExtData.prototype.get = function(key, callback) {
   const defaultOptions = {
     transTool: 'sogou',
     sogou:

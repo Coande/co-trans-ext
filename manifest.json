@@ -13,7 +13,7 @@
       "matches": ["<all_urls>"],
       "exclude_globs": ["*x-from=co-translate-extension*"],
       "all_frames": true,
-      "js": ["lib/jquery-3.4.0.slim.min.js", "js/load-resource.js", "js/extData.js", "js/content-script.js"],
+      "js": ["lib/jquery-3.4.0.slim.min.js", "js/utils.js", "js/extData.js", "js/content-script.js"],
       "css": ["css/extension.css"]
     },
     {

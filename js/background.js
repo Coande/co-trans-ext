@@ -20,7 +20,7 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
   {
     urls: [
       '*://fanyi.sogou.com/*x-from=co-translate-extension*',
-      '*://fanyi.baidu.com/*',
+      '*://fanyi.baidu.com/*x-from=co-translate-extension*',
       '*://*.youdao.com/*x-from=co-translate-extension*',
       '*://*.ydstatic.com/*x-from=co-translate-extension*'
     ]

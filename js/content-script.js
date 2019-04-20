@@ -1,26 +1,26 @@
 /********************* 插件用到的元素模板 ****************/
 // 插件注入的页面结构
 const transExt = $(`
-<div class="trans-ext">
-  <div class="trans-ext__trans-btn">译</div>
-  <div class="trans-ext__popup">
-    <div class="trans-ext__title-bar">
-      <div class="trans-ext__title-center">
-        <i class="iconfont icon-sogou trans-ext__tool" data-trans-tool="sogou" title="搜狗翻译"></i>
-        <i class="iconfont icon-baidu trans-ext__tool" data-trans-tool="baidu" title="百度翻译"></i>
-        <i class="iconfont icon-google1 trans-ext__tool" data-trans-tool="google" title="谷歌翻译"></i>
-        <i class="iconfont icon-youdao trans-ext__tool" data-trans-tool="youdao" title="有道翻译"></i>
-        <i class="iconfont icon-kingsoft trans-ext__tool" data-trans-tool="kingsoft" title="金山词霸"></i>
-      </div>
-      <div class="trans-ext__title-right">
-        <i class="iconfont icon-zhankai1 trans-ext__tool-down" title="显示更多"></i>
-        <i class="iconfont icon-shouqi trans-ext__tool-up" title="收起更多"></i>
-        <i class="iconfont icon-guanbi trans-ext__tool-close" title="关闭"></i>
-      </div>
-    </div>
+<co-div class="trans-ext">
+  <co-div class="trans-ext__trans-btn">译</co-div>
+  <co-div class="trans-ext__popup">
+    <co-div class="trans-ext__title-bar">
+      <co-div class="trans-ext__title-center">
+        <co-i class="co-iconfont co-icon-sogou trans-ext__tool" data-trans-tool="sogou" title="搜狗翻译"></co-i>
+        <co-i class="co-iconfont co-icon-baidu trans-ext__tool" data-trans-tool="baidu" title="百度翻译"></co-i>
+        <co-i class="co-iconfont co-icon-google1 trans-ext__tool" data-trans-tool="google" title="谷歌翻译"></co-i>
+        <co-i class="co-iconfont co-icon-youdao trans-ext__tool" data-trans-tool="youdao" title="有道翻译"></co-i>
+        <co-i class="co-iconfont co-icon-kingsoft trans-ext__tool" data-trans-tool="kingsoft" title="金山词霸"></co-i>
+      </co-div>
+      <co-div class="trans-ext__title-right">
+        <co-i class="co-iconfont co-icon-zhankai1 trans-ext__tool-down" title="显示更多"></co-i>
+        <co-i class="co-iconfont co-icon-shouqi trans-ext__tool-up" title="收起更多"></co-i>
+        <co-i class="co-iconfont co-icon-guanbi trans-ext__tool-close" title="关闭"></co-i>
+      </co-div>
+    </co-div>
     <iframe class="trans-ext__iframe"></iframe>
-  </div>
-</div>
+  </co-div>
+</co-div>
 `);
 
 /********************** 初始化相关 ***********************/

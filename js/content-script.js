@@ -2,7 +2,7 @@
 // 插件注入的页面结构
 const transExt = $(`
 <co-div class="trans-ext">
-  <co-div class="trans-ext__trans-btn">译</co-div>
+  <co-div class="trans-ext__trans-btn"></co-div>
   <co-div class="trans-ext__popup">
     <co-div class="trans-ext__title-bar">
       <co-div class="trans-ext__title-center">

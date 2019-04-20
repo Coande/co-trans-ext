@@ -3,8 +3,13 @@
   "version": "1.0",
   "manifest_version": 2,
   "description": "一款集搜狗翻译、百度翻译、Google翻译、有道翻译、金山词霸于一体的翻译工具",
+  "icons": {
+    "16": "img/icon-16.png",
+    "48": "img/icon-48.png",
+    "128": "img/icon-128.png"
+  },
   "browser_action": {
-    "default_icon": "img/logo-200.png",
+    "default_icon": "img/icon-48.png",
     "default_title": "翻译工具",
     "default_popup": "popup.html"
   },
@@ -13,7 +18,12 @@
       "matches": ["<all_urls>"],
       "exclude_globs": ["*x-from=co-translate-extension*"],
       "all_frames": true,
-      "js": ["lib/jquery-3.4.0.slim.min.js", "js/utils.js", "js/extData.js", "js/content-script.js"],
+      "js": [
+        "lib/jquery-3.4.0.slim.min.js",
+        "js/utils.js",
+        "js/extData.js",
+        "js/content-script.js"
+      ],
       "css": ["css/extension.css"]
     },
     {
@@ -26,7 +36,11 @@
       "all_frames": true,
       "matches": ["*://fanyi.baidu.com/*x-from=co-translate-extension*"],
       "css": ["css/base.css", "css/baidu.css"],
-      "js": ["js/utils.js", "lib/jquery-3.4.0.slim.min.js", "js/iframe-messager.js"]
+      "js": [
+        "js/utils.js",
+        "lib/jquery-3.4.0.slim.min.js",
+        "js/iframe-messager.js"
+      ]
     },
     {
       "all_frames": true,
@@ -60,8 +74,5 @@
   "options_page": "options.html",
   "permissions": ["webRequest", "webRequestBlocking", "<all_urls>", "storage"],
   "update_url": "http://clients2.google.com/service/update2/crx",
-  "web_accessible_resources": [
-    "lib/youdao-web-translate/*",
-    "css/iconfont/*"
-  ]
+  "web_accessible_resources": ["lib/youdao-web-translate/*", "css/iconfont/*", "img/*"]
 }

@@ -1,9 +1,8 @@
-html {
-  font-size: 14px;
-  color: #555555;
-}
-
 body {
+  font-size: 14px;
+  font-family: Roboto,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #555555;
   margin: 0;
 }
 

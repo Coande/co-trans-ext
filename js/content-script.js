@@ -27,6 +27,7 @@ const transExt = $(`
 
 // 存储选中的文本内容
 let selectedText;
+// 获取数据操作对象
 const data = new ExtData();
 
 // 弹窗移动相关数据
@@ -55,8 +56,19 @@ data.get('transTool', val => {
 
 /************************** 事件处理 ***********************/
 
+// 谷歌分析
+function ga(...args) {
+  args.push({
+    page: '/'
+  });
+  chrome.extension.sendRequest({
+    ga: args
+  });
+}
+
 // 切换是否显示输入内容、翻译语言切换等界面元素
 transExt.find('.trans-ext__tool-down').click(function() {
+  ga('send', 'event', 'input-view', 'show');
   transIframe.eq(0)[0].contentWindow.postMessage(
     {
       op: 'showDetail'
@@ -67,6 +79,7 @@ transExt.find('.trans-ext__tool-down').click(function() {
   transExt.find('.trans-ext__tool-up').show();
 });
 transExt.find('.trans-ext__tool-up').click(function() {
+  ga('send', 'event', 'input-view', 'hide');
   transIframe.eq(0)[0].contentWindow.postMessage(
     {
       op: 'hideDetail'
@@ -108,6 +121,7 @@ transExt.find('.trans-ext__tool-close').click(handleClosePopup);
 // 监听 popup 中翻译切换图标的点击事件
 transExt.find(`.trans-ext__tool`).click(function(event) {
   const transTool = $(event.target).data('trans-tool');
+  ga('send', 'event', 'trans-tool', 'change', transTool);
   transExt.find('.trans-ext__tool').removeClass('active');
   transExt
     .find(`.trans-ext__tool[data-trans-tool=${transTool}]`)
@@ -161,7 +175,7 @@ function calcInitPopupPosition(event) {
 // 点击“译”字显示翻译内容页 popup
 transBtn.mouseup(function showPopup(event) {
   event.stopPropagation();
-
+  ga('send', 'event', 'trans-button', 'translate');
   // 加载图标
   loadCSS(chrome.extension.getURL('css/iconfont/iconfont.css'), 'iconfont');
 

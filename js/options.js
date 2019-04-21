@@ -12,6 +12,15 @@ const data = new ExtData();
 $('#isEnabledAnalytics').change(event => {
   const checked = event.target.checked;
   data.set('isEnabledAnalytics', checked);
+  // 通知停用或启用
+  var bg = chrome.extension.getBackgroundPage();
+  if (checked) {
+    bg.setIsDisableGA(!checked);
+    ga('send', 'event', 'ga-options', 'enable');
+  } else {
+    ga('send', 'event', 'ga-options', 'disable');
+    bg.setIsDisableGA(!checked);
+  }
 });
 
 // 接收iframe内部通过postMessage传递过来的数据
@@ -24,4 +33,9 @@ window.addEventListener('message', function(event) {
       $('.reward__list').height(400);
     }
   }
+});
+
+// 谷歌分析
+$('.reward__button').click(() => {
+  ga('send', 'event', 'reward', 'click-button');
 });

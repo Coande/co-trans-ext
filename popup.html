@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>popup 页 - co-trans-ext</title>
+  <script src="js/popup-ga.js"></script>
   <link rel="stylesheet" type="text/css"
     href="css/extension.css"/>
   <style>
@@ -19,26 +20,26 @@
   </style>
 </head>
 <body>
-    <co-div class="trans-ext__popup">
-      <co-div class="trans-ext__title-bar">
-        <co-div class="trans-ext__title-center">
-          <co-i class="co-iconfont co-icon-sogou trans-ext__tool" data-trans-tool="sogou" title="搜狗翻译"></co-i>
-          <co-i class="co-iconfont co-icon-baidu trans-ext__tool" data-trans-tool="baidu" title="百度翻译"></co-i>
-          <co-i class="co-iconfont co-icon-google1 trans-ext__tool" data-trans-tool="google" title="谷歌翻译"></co-i>
-          <co-i class="co-iconfont co-icon-youdao trans-ext__tool" data-trans-tool="youdao" title="有道翻译"></co-i>
-          <co-i class="co-iconfont co-icon-kingsoft trans-ext__tool" data-trans-tool="kingsoft" title="金山词霸"></co-i>
-        </co-div>
-        <co-div class="trans-ext__title-right">
-          <co-i class="co-iconfont co-icon-youdao trans-ext__trans-page-tool" data-trans-tool="youdao" title="有道网页翻译"></co-i>
-          <co-i class="co-iconfont co-icon-yandex trans-ext__trans-page-tool" data-trans-tool="yandex" title="Yandex网页翻译"></co-i>
-        </co-div>
+  <co-div class="trans-ext__popup">
+    <co-div class="trans-ext__title-bar">
+      <co-div class="trans-ext__title-center">
+        <co-i class="co-iconfont co-icon-sogou trans-ext__tool" data-trans-tool="sogou" title="搜狗翻译"></co-i>
+        <co-i class="co-iconfont co-icon-baidu trans-ext__tool" data-trans-tool="baidu" title="百度翻译"></co-i>
+        <co-i class="co-iconfont co-icon-google1 trans-ext__tool" data-trans-tool="google" title="谷歌翻译"></co-i>
+        <co-i class="co-iconfont co-icon-youdao trans-ext__tool" data-trans-tool="youdao" title="有道翻译"></co-i>
+        <co-i class="co-iconfont co-icon-kingsoft trans-ext__tool" data-trans-tool="kingsoft" title="金山词霸"></co-i>
       </co-div>
-      <iframe class="trans-ext__iframe" allow="microphone"></iframe>
+      <co-div class="trans-ext__title-right">
+        <co-i class="co-iconfont co-icon-youdao trans-ext__trans-page-tool" data-trans-tool="youdao" title="有道网页翻译"></co-i>
+        <co-i class="co-iconfont co-icon-yandex trans-ext__trans-page-tool" data-trans-tool="yandex" title="Yandex网页翻译"></co-i>
+      </co-div>
     </co-div>
+    <iframe class="trans-ext__iframe" allow="microphone"></iframe>
+  </co-div>
 
-    <script src="lib/jquery-3.4.0.slim.min.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/extData.js"></script>
-    <script src="js/popup.js"></script>
+  <script src="lib/jquery-3.4.0.slim.min.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/extData.js"></script>
+  <script src="js/popup.js"></script>
 </body>
 </html>

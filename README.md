@@ -1,7 +1,7 @@
 # co-trans-ext
 ![logo](https://i.loli.net/2019/04/22/5cbd80f8da40b.png)
 
-**co-trans-ext** 是一个集搜狗翻译、百度翻译、谷歌翻译、有道翻译、金山词霸于一体的Chrome系浏览器翻译扩展
+**co-trans-ext** 是一个集搜狗翻译、百度翻译、谷歌翻译、有道翻译、金山词霸于一体的Chrome系浏览器翻译扩展。项目地址：https://github.com/Coande/co-trans-ext
 
 
 ![web-popup](https://i.loli.net/2019/04/22/5cbd53632042a.gif)
@@ -10,6 +10,6 @@
 
 ## 使用说明
 
-[点此下载该扩展](https://github.com/Coande/co-trans-ext/releases/download/v1.0/co-trans-ext.crx)
+[点此下载该扩展 v1.0](https://github.com/Coande/co-trans-ext/releases/download/v1.0/co-trans-ext.crx)
 
 目前该扩展尚未发布到 Chrome Web Store，Google Chrome 浏览器阻止了非 Chrome Web Store 扩展的安装，暂时没有什么好的办法。推荐使用 [360Chrome 浏览器](https://browser.360.cn/ee/)，直接把该扩展的 `crx` 拖到浏览器窗口即可安装。

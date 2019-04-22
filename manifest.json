@@ -2,7 +2,7 @@
   "name": "co-trans-ext 翻译工具",
   "version": "1.0",
   "manifest_version": 2,
-  "description": "一款集搜狗翻译、百度翻译、谷歌翻译、有道翻译、金山词霸于一体的翻译工具",
+  "description": "集搜狗翻译、百度翻译、谷歌翻译、有道翻译、金山词霸于一体的翻译工具",
   "icons": {
     "16": "img/icon-16.png",
     "48": "img/icon-48.png",

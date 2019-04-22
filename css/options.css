@@ -1,6 +1,6 @@
 body {
   font-size: 14px;
-  font-family: Roboto,sans-serif;
+  font-family: "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
   -webkit-font-smoothing: antialiased;
   color: #555555;
   margin: 0;
@@ -8,6 +8,11 @@ body {
 
 input[type='checkbox'] {
   vertical-align: top;
+}
+
+a {
+  text-decoration: none;
+  color: #03a9f4;
 }
 
 .page-wrapper {
@@ -34,7 +39,6 @@ input[type='checkbox'] {
   background: #03a9f4;
   padding: 0 6px;
   color: #ffffff;
-  text-decoration: none;
 }
 .reward__list {
   width: 600px;

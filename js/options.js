@@ -2,6 +2,27 @@ const data = new ExtData();
 
 // 获取初始数据
 (function init() {
+  const currentVersion = chrome.runtime.getManifest().version;
+  $('.current-version').text(currentVersion);
+  fetch('https://update.e12e.com/co-trans-ext/')
+    .then(response => response.text())
+    .then(str => new window.DOMParser().parseFromString(str, 'text/xml'))
+    .then(doc => {
+      // const appId = chrome.runtime.id;
+      const appId = 'keigenoolicjcehlbpjcfhdjdmaochie';
+      const $updateCheck = $(doc)
+        .find(`[appid=${appId}]`)
+        .find('updatecheck');
+      const latestVersion = $updateCheck.attr('version');
+      $('.latest-version').text(latestVersion);
+      if (latestVersion !== currentVersion) {
+        // 有更新
+        $('.not-latest').show();
+        $('.not-latest a').attr('href', $updateCheck.attr('codebase'));
+      } else {
+        $('.already-latest').show();
+      }
+    });
   // 显示当前是否启用分析
   data.get('isEnabledAnalytics', val => {
     $('#isEnabledAnalytics').attr('checked', val);
@@ -38,4 +59,9 @@ window.addEventListener('message', function(event) {
 // 谷歌分析
 $('.reward__button').click(() => {
   ga('send', 'event', 'reward', 'click-button');
+});
+
+// 谷歌分析
+$('.not-latest a').click(() => {
+  ga('send', 'event', 'update', 'click-button');
 });

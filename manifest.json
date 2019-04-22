@@ -73,7 +73,7 @@
   },
   "options_page": "options.html",
   "permissions": ["webRequest", "webRequestBlocking", "<all_urls>", "storage"],
-  "update_url": "http://clients2.google.com/service/update2/crx",
+  "update_url": "https://update.e12e.com/co-trans-ext/",
   "web_accessible_resources": ["lib/youdao-web-translate/*", "css/iconfont/*", "img/*"],
   "content_security_policy": "script-src 'self' blob: filesystem: chrome-extension-resource: https://www.google-analytics.com; object-src 'self'"
 }

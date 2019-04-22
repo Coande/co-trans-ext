@@ -52,3 +52,8 @@ a {
   height: 100%;
   border: none;
 }
+
+.already-latest,
+.not-latest {
+  display: none;
+}

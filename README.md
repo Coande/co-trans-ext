@@ -1,7 +1,7 @@
 # co-trans-ext
 ![logo](https://i.loli.net/2019/04/22/5cbd80f8da40b.png)
 
-**co-trans-ext** 是一个集搜狗翻译、百度翻译、谷歌翻译、有道翻译、金山词霸于一体的Chrome系浏览器翻译扩展。项目地址：https://github.com/Coande/co-trans-ext
+**co-trans-ext** 是一个集搜狗翻译、百度翻译、谷歌翻译、有道翻译、金山词霸于一体的Chrome系浏览器翻译扩展。项目地址：[https://github.com/Coande/co-trans-ext](https://github.com/Coande/co-trans-ext)
 
 
 ![web-popup](https://i.loli.net/2019/04/22/5cbd53632042a.gif)

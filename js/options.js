@@ -8,12 +8,14 @@ const data = new ExtData();
     .then(response => response.text())
     .then(str => new window.DOMParser().parseFromString(str, 'text/xml'))
     .then(doc => {
-      // const appId = chrome.runtime.id;
-      const appId = 'keigenoolicjcehlbpjcfhdjdmaochie';
+      const appId = chrome.runtime.id;
       const $updateCheck = $(doc)
         .find(`[appid=${appId}]`)
         .find('updatecheck');
       const latestVersion = $updateCheck.attr('version');
+      if (!latestVersion) {
+        throw new Error('获取最新版本失败');
+      }
       $('.latest-version').text(latestVersion);
       if (latestVersion !== currentVersion) {
         // 有更新
@@ -22,6 +24,9 @@ const data = new ExtData();
       } else {
         $('.already-latest').show();
       }
+    })
+    .catch(() => {
+      $('.latest-version').text('获取失败');
     });
   // 显示当前是否启用分析
   data.get('isEnabledAnalytics', val => {

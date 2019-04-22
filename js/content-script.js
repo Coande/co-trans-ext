@@ -175,6 +175,7 @@ function calcInitPopupPosition(event) {
 // 点击“译”字显示翻译内容页 popup
 transBtn.mouseup(function showPopup(event) {
   event.stopPropagation();
+  ga('send', 'pageview');
   ga('send', 'event', 'trans-button', 'translate');
   // 加载图标
   loadCSS(chrome.extension.getURL('css/iconfont/iconfont.css'), 'iconfont');

@@ -1,6 +1,7 @@
 const data = new ExtData();
 const transExt = $('.trans-ext__popup');
 const transIframe = $('.trans-ext__iframe');
+let keyword = '';
 
 // 加载图标
 loadCSS(chrome.extension.getURL('css/iconfont/iconfont.css'), 'iconfont');
@@ -26,20 +27,29 @@ data.get('transTool', val => {
 // 添加搜索工具图标点击事件
 transExt.find(`.trans-ext__tool`).click(function(event) {
   const transTool = $(event.target).data('trans-tool');
+  transIframe.eq(0)[0].contentWindow.postMessage({ changeTransTool: transTool },'*');
   ga('send', 'event', 'trans-tool', 'change', transTool);
-  transExt.find('.trans-ext__tool').removeClass('active');
-  transExt
-    .find(`.trans-ext__tool[data-trans-tool=${transTool}]`)
-    .addClass('active');
-  data.set('transTool', transTool);
-  data.get('transTool', val => {
-    data.get(val, val2 => {
-      transIframe.attr(
-        'src',
-        val2.replace('KEYWORD', '').replace('SHOWDETAIL', true)
-      );
+});
+
+// 获取 iframe 内输入值后切换 翻译
+window.addEventListener('message',function(event){
+  const transTool = event.data.changeTransTool;
+  if(transTool) {
+    keyword = event.data.keyword;
+    transExt.find('.trans-ext__tool').removeClass('active');
+    transExt
+      .find(`.trans-ext__tool[data-trans-tool=${transTool}]`)
+      .addClass('active');
+    data.set('transTool', transTool);
+    data.get('transTool', val => {
+      data.get(val, val2 => {
+        transIframe.attr(
+          'src',
+          val2.replace('KEYWORD', keyword).replace('SHOWDETAIL', true)
+        );
+      });
     });
-  });
+  }
 });
 
 // 网页翻译

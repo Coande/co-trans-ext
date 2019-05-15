@@ -9,6 +9,14 @@ window.addEventListener('message', function(event) {
   }
 });
 
+window.addEventListener('message',function(event){
+  if(event.data.changeTransTool) {
+    const keyword = $('#textarea-source').val() || $('#j-textarea').val() 
+      || $('#source').val() || $('#index-input-main').val() || $('#formInput').val();
+    window.parent.postMessage({ changeTransTool: event.data.changeTransTool, keyword: keyword ? keyword : '' }, '*');
+  }
+});
+
 // 接收query上的数据并判断是否需要显示输入内容和语言切换等
 const isShowDetail = getQueryVariable(window.location.href, 'showDetail');
 if (isShowDetail === 'true') {

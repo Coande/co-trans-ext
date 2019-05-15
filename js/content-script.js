@@ -121,21 +121,30 @@ transExt.find('.trans-ext__tool-close').click(handleClosePopup);
 // 监听 popup 中翻译切换图标的点击事件
 transExt.find(`.trans-ext__tool`).click(function(event) {
   const transTool = $(event.target).data('trans-tool');
+  transIframe.eq(0)[0].contentWindow.postMessage({ changeTransTool: transTool },'*'); 
   ga('send', 'event', 'trans-tool', 'change', transTool);
-  transExt.find('.trans-ext__tool').removeClass('active');
-  transExt
-    .find(`.trans-ext__tool[data-trans-tool=${transTool}]`)
-    .addClass('active');
-  data.set('transTool', transTool);
-  data.get(transTool, val => {
-    let iframeURL = val;
-    iframeURL = iframeURL.replace('KEYWORD', encodeURIComponent(selectedText));
-    iframeURL = iframeURL.replace(
-      'SHOWDETAIL',
-      transExt.find('.trans-ext__tool-up').is(':visible')
-    );
-    transIframe.attr('src', iframeURL);
-  });
+});
+
+// 获取 iframe 内输入值后切换 翻译
+window.addEventListener('message',function(event){
+  const transTool = event.data.changeTransTool;
+  if(transTool) {
+    selectedText = event.data.keyword;
+    transExt.find('.trans-ext__tool').removeClass('active');
+    transExt
+      .find(`.trans-ext__tool[data-trans-tool=${transTool}]`)
+      .addClass('active');
+    data.set('transTool', transTool);
+    data.get(transTool, val => {
+      let iframeURL = val;
+      iframeURL = iframeURL.replace('KEYWORD', encodeURIComponent(selectedText));
+      iframeURL = iframeURL.replace(
+        'SHOWDETAIL',
+        transExt.find('.trans-ext__tool-up').is(':visible')
+      );
+      transIframe.attr('src', iframeURL);
+    });
+  }
 });
 
 // 点击翻译按钮时防止划选的文本消失掉

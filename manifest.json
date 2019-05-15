@@ -28,6 +28,11 @@
     },
     {
       "all_frames": true,
+      "matches": ["*://*/*x-from=co-translate-extension*"],
+      "js": ["lib/jquery-3.4.0.slim.min.js"]
+    },
+    {
+      "all_frames": true,
       "matches": ["*://fanyi.sogou.com/*x-from=co-translate-extension*"],
       "css": ["css/base.css", "css/sogou.css"],
       "js": ["js/utils.js", "js/iframe-messager.js"]

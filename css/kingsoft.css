@@ -79,3 +79,8 @@ body:not(.trans-ext-detail) .index .result {
 .download-swiper {
   display: none !important;
 }
+
+/* 输入时智能提示 */
+.index-cover-list-result {
+  margin-top: 58px !important;
+}

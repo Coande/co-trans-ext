@@ -21,7 +21,7 @@ ExtData.prototype.get = function(key, callback) {
     youdao:
       'https://m.youdao.com/dict?le=eng&q=KEYWORD&x-from=co-translate-extension&showDetail=SHOWDETAIL',
     kingsoft:
-      'https://m.iciba.com/KEYWORD?x-from=co-translate-extension&showDetail=SHOWDETAIL',
+      'https://m.iciba.com/KEYWORD?flag=searchBack&x-from=co-translate-extension&showDetail=SHOWDETAIL',
     isEnabledAnalytics: true
   };
   chrome.storage.sync.get([key], result => {

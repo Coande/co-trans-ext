@@ -22,6 +22,7 @@ co-div {
 
 .trans-ext__popup {
   width: 350px;
+  height: 440px;
   box-shadow: 0 0 2px 0px #808080;
   background-color: rgba(255, 255, 255, 0.9);
   position: absolute;
@@ -74,6 +75,6 @@ co-div {
 .trans-ext__iframe {
   display: block !important;
   width: 100% !important;
-  height: 400px !important;
+  height: calc(100% - 40px) !important;
   border: none !important;
 }

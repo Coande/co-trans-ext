@@ -15,6 +15,9 @@ const transExt = $(`
       <co-div class="trans-ext__title-right">
         <co-i class="co-iconfont co-icon-zhankai1 trans-ext__tool-down" title="显示更多"></co-i>
         <co-i class="co-iconfont co-icon-shouqi trans-ext__tool-up" title="收起更多"></co-i>
+        <co-i class="co-iconfont co-icon-xiangyoujiantou trans-ext__tool-right" title="固定到右边"></co-i>
+        <co-i class="co-iconfont co-icon-xiangzuojiantou-copy trans-ext__tool-left" title="固定到左边"></co-i>
+        <co-i class="co-iconfont co-icon-suoxiao1 trans-ext__tool-position" title="恢复初始样式"></co-i>
         <co-i class="co-iconfont co-icon-guanbi trans-ext__tool-close" title="关闭"></co-i>
       </co-div>
     </co-div>
@@ -34,6 +37,9 @@ const data = new ExtData();
 // 翻译弹窗的移动
 let isMoving = false;
 
+// 当前是否处于固定右侧状态
+let isLockPosition = false;
+
 // 后续需要操作的相关元素
 const transBtn = transExt.find('.trans-ext__trans-btn');
 transBtn.hide();
@@ -44,6 +50,9 @@ const transPopupTitleBar = transExt.find('.trans-ext__title-bar');
 
 // 默认显示展开按钮
 transExt.find('.trans-ext__tool-up').hide();
+// 默认显示 固定到右侧按钮
+transExt.find('.trans-ext__tool-left').hide();
+transExt.find('.trans-ext__tool-position').hide();
 
 // 获取并高亮当前使用的搜索工具
 data.get('transTool', val => {
@@ -90,6 +99,82 @@ transExt.find('.trans-ext__tool-up').click(function() {
   transExt.find('.trans-ext__tool-up').hide();
 });
 
+// 固定到右边
+transExt.find('.trans-ext__tool-right').click(function() {
+  ga('send', 'event', 'lock-right', 'lock');
+  isLockPosition = true;
+  transExt.find('.trans-ext__tool-right').hide();
+  transExt.find('.trans-ext__tool-left').show();
+  $('html').css({
+    'margin-right': '350px'
+  });
+  transPopup.css({
+    position: 'fixed',
+    top: 0,
+    right: 0,
+    left: 'auto',
+    bottom: 'auto',
+    height: '100%'
+  });
+  transExt.find('.trans-ext__title-bar').css({
+    cursor: 'auto'
+  });
+});
+// 固定到左边
+transExt.find('.trans-ext__tool-left').click(function() {
+  resetStyle();
+  ga('send', 'event', 'lock-left', 'lock');
+  isLockPosition = true;
+  transExt.find('.trans-ext__tool-right').hide();
+  transExt.find('.trans-ext__tool-position').show();
+  $('html').css({
+    'margin-left': '350px'
+  });
+  transPopup.css({
+    position: 'fixed',
+    top: 0,
+    right: 'auto',
+    left: 0,
+    bottom: 'auto',
+    height: '100%'
+  });
+  transExt.find('.trans-ext__title-bar').css({
+    cursor: 'auto'
+  });
+});
+
+// 恢复初始
+transExt.find('.trans-ext__tool-position').click(function() {
+  resetStyle();
+  transPopup.css({
+    top: '0',
+    left: '0'
+  });
+});
+
+// 样式初始化
+function resetStyle() {
+  isLockPosition = false;
+  transExt.find('.trans-ext__tool-left').hide();
+  transExt.find('.trans-ext__tool-position').hide();
+  transExt.find('.trans-ext__tool-right').show();
+  $('html').css({
+    'margin-left': 'auto',
+    'margin-right': 'auto'
+  });
+  transPopup.css({
+    position: 'absolute',
+    top: 'auto',
+    right: 'auto',
+    left: 'auto',
+    bottom: 'auto',
+    height: '440px'
+  });
+  transExt.find('.trans-ext__title-bar').css({
+    cursor: 'move'
+  });
+}
+
 // 处理拖动过程中事件可能被iframe捕获而丢失事件的问题
 // https://blog.csdn.net/zgrbsbf/article/details/71423401
 function setIsMoving(moving) {
@@ -107,6 +192,7 @@ function handleClosePopup() {
   transBtn.hide();
   transPopup.hide();
   transIframe.attr('src', '');
+  resetStyle();
 
   // 恢复是否显示详情的箭头
   transExt.find('.trans-ext__tool-down').show();
@@ -220,6 +306,23 @@ $(document).mouseup(function(event) {
       .getSelection()
       .toString()
       .trim();
+    if (isLockPosition) {
+      if (selectedText) {
+        // 直接翻译
+        data.get('transTool', transTool => {
+          data.get(transTool, val => {
+            let iframeURL = val;
+            iframeURL = iframeURL.replace('KEYWORD', encodeURIComponent(selectedText));
+            iframeURL = iframeURL.replace(
+              'SHOWDETAIL',
+              transExt.find('.trans-ext__tool-up').is(':visible')
+            );
+            transIframe.attr('src', iframeURL);
+          });
+        });
+      }
+      return;
+    }
 
     if (selectedText) {
       // 如果有选中的文本，显示“译”按钮
@@ -248,6 +351,9 @@ let startLeft = 0;
 
 // popup 拖拽开始
 $(transPopup).on('mousedown', '.trans-ext__title-bar', function(event) {
+  if (isLockPosition) {
+    return;
+  }
   setIsMoving(true);
   startX = event.clientX;
   startY = event.clientY;

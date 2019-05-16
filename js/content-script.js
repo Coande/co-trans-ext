@@ -228,8 +228,22 @@ function calcInitPopupPosition(event) {
   transPopup.show();
 }
 
+// 移入翻译按钮 500ms 自动弹出
+let hoverTimeoutId;
+transBtn.mouseenter(function() {
+  hoverTimeoutId = setTimeout(() => {
+    transBtn.mouseup();
+  }, 500);
+});
+
+transBtn.mouseleave(function() {
+  clearTimeout(hoverTimeoutId);
+});
+
+
 // 点击“译”字显示翻译内容页 popup
 transBtn.mouseup(function showPopup(event) {
+  clearTimeout(hoverTimeoutId);
   event.stopPropagation();
   ga('send', 'pageview');
   ga('send', 'event', 'trans-button', 'translate');

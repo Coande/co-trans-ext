@@ -17,7 +17,17 @@ co-div {
   box-sizing: border-box;
   background-image: url('chrome-extension://__MSG_@@extension_id__/img/icon-48.png');
   background-position: center;
-  background-size: cover;
+  background-size: 18px 18px;
+  background-repeat: no-repeat;
+  border-radius: 0;
+}
+
+.trans-ext__trans-btn:hover {
+  transform: translate(-3.7px, -3.7px);
+  width: 25.4px;
+  height: 25.4px;
+  border-radius: 50%;
+  transition: transform 0.5s, width 0.5s, height 0.5s, border-radius 0.5s;
 }
 
 .trans-ext__popup {

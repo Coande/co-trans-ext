@@ -105,51 +105,23 @@ transExt.find('.trans-ext__tool-right').click(function() {
   isLockPosition = true;
   transExt.find('.trans-ext__tool-right').hide();
   transExt.find('.trans-ext__tool-left').show();
-  $('html').css({
-    'margin-right': '350px'
-  });
-  transPopup.css({
-    position: 'fixed',
-    top: 0,
-    right: 0,
-    left: 'auto',
-    bottom: 'auto',
-    height: '100%'
-  });
-  transExt.find('.trans-ext__title-bar').css({
-    cursor: 'auto'
-  });
+  $('html').addClass('co-transition').addClass('co-fixed-r');
 });
 // 固定到左边
 transExt.find('.trans-ext__tool-left').click(function() {
-  resetStyle();
   ga('send', 'event', 'lock-left', 'lock');
-  isLockPosition = true;
-  transExt.find('.trans-ext__tool-right').hide();
+  transExt.find('.trans-ext__tool-left').hide();
   transExt.find('.trans-ext__tool-position').show();
-  $('html').css({
-    'margin-left': '350px'
-  });
-  transPopup.css({
-    position: 'fixed',
-    top: 0,
-    right: 'auto',
-    left: 0,
-    bottom: 'auto',
-    height: '100%'
-  });
-  transExt.find('.trans-ext__title-bar').css({
-    cursor: 'auto'
-  });
+  $('html').removeClass('co-fixed-r').addClass('co-fixed-l');
 });
 
 // 恢复初始
 transExt.find('.trans-ext__tool-position').click(function() {
-  resetStyle();
   transPopup.css({
     top: '0',
     left: '0'
   });
+  resetStyle();
 });
 
 // 样式初始化
@@ -158,21 +130,10 @@ function resetStyle() {
   transExt.find('.trans-ext__tool-left').hide();
   transExt.find('.trans-ext__tool-position').hide();
   transExt.find('.trans-ext__tool-right').show();
-  $('html').css({
-    'margin-left': 'auto',
-    'margin-right': 'auto'
-  });
-  transPopup.css({
-    position: 'absolute',
-    top: 'auto',
-    right: 'auto',
-    left: 'auto',
-    bottom: 'auto',
-    height: '440px'
-  });
-  transExt.find('.trans-ext__title-bar').css({
-    cursor: 'move'
-  });
+  $('html').removeClass('co-fixed-r co-fixed-l');
+  setTimeout(() => {
+    $('html').removeClass('co-transition');
+  }, 200);
 }
 
 // 处理拖动过程中事件可能被iframe捕获而丢失事件的问题

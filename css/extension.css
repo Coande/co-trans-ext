@@ -78,3 +78,41 @@ co-div {
   height: calc(100% - 40px) !important;
   border: none !important;
 }
+
+
+/* 动画 */
+html.co-transition {
+  transition: all .2s;
+}
+
+html.co-transition .trans-ext__popup {
+  transition: all .2s;
+}
+
+html.co-fixed-r {
+  margin-right: 350px;
+}
+
+html.co-fixed-l {
+  margin-left: 350px;
+}
+
+.co-fixed-r .trans-ext__popup,
+.co-fixed-l .trans-ext__popup {
+  position: fixed;
+  top: 0 !important;
+  height: 100%;
+}
+
+.co-fixed-r .trans-ext__title-bar,
+.co-fixed-l .trans-ext__title-bar {
+  cursor: auto;
+}
+
+.co-fixed-r .trans-ext__popup{
+  left: calc(100% - 350px) !important;
+}
+
+.co-fixed-l .trans-ext__popup{
+  left: 0 !important;
+}

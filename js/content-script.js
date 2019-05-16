@@ -160,6 +160,8 @@ function handleClosePopup() {
   transExt.find('.trans-ext__tool-up').hide();
 
   setIsMoving(false);
+
+  isTriggerByHover = false;
 }
 
 // 监听关闭 popup 按钮点击事件
@@ -230,8 +232,10 @@ function calcInitPopupPosition(event) {
 
 // 移入翻译按钮 500ms 自动弹出
 let hoverTimeoutId;
+let isTriggerByHover = false;
 transBtn.mouseenter(function() {
   hoverTimeoutId = setTimeout(() => {
+    isTriggerByHover = true;
     transBtn.mouseup();
   }, 500);
 });
@@ -246,7 +250,11 @@ transBtn.mouseup(function showPopup(event) {
   clearTimeout(hoverTimeoutId);
   event.stopPropagation();
   ga('send', 'pageview');
-  ga('send', 'event', 'trans-button', 'translate');
+  if (isTriggerByHover) {
+    ga('send', 'event', 'trans-button', 'hover-translate');
+  } else {
+    ga('send', 'event', 'trans-button', 'translate');
+  }
   // 加载图标
   loadCSS(chrome.extension.getURL('css/iconfont/iconfont.css'), 'iconfont');
 

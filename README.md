@@ -6,7 +6,10 @@
 
 ![web-popup](https://i.loli.net/2019/04/22/5cbd53632042a.gif)
 
+![fixed](https://i.loli.net/2019/05/16/5cdd2ec1c5f7f57594.gif)
+
 ![browser-popup](https://i.loli.net/2019/04/22/5cbd536355514.gif)
+
 
 ## 使用说明
 

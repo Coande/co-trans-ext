@@ -15,4 +15,17 @@
 
 [点此下载该扩展 v1.2](https://github.com/Coande/co-trans-ext/releases/download/v1.2/co-trans-ext.crx)
 
-目前该扩展尚未发布到 Chrome Web Store，Google Chrome 浏览器阻止了非 Chrome Web Store 扩展的安装，暂时没有什么好的办法。推荐使用 [360极速浏览器](https://browser.360.cn/ee/)（Chrome 内核），直接把该扩展的 `crx` 拖到浏览器窗口即可安装，也可从[360极速浏览器扩展中心](https://ext.chrome.360.cn/webstore/detail/keigenoolicjcehlbpjcfhdjdmaochie)进行安装。
+~~目前该扩展尚未发布到 Chrome Web Store，Google Chrome 浏览器阻止了非 Chrome Web Store 扩展的安装，暂时没有什么好的办法。~~
+
+### chrome 浏览器上安装：
+
+- 直接下载或者 clone 本项目到本地（或者直接下载.crx文件，修改文件后缀为'.zip'或'.rar'，再进行解压）
+- 浏览器打开 'chrome://extensions/' 页面
+- 在页面右上角开启“开发者模式”
+- 在页面左上角点击“加载已解压的扩展程序”即可
+
+推荐使用 [360极速浏览器](https://browser.360.cn/ee/)（Chrome 内核），直接把该扩展的 `crx` 拖到浏览器窗口即可安装，也可从[360极速浏览器扩展中心](https://ext.chrome.360.cn/webstore/detail/keigenoolicjcehlbpjcfhdjdmaochie)进行安装。
+
+### 注意
+
+若发现选词后没有提示翻译，请刷新页面再试。

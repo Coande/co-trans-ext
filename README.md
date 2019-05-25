@@ -19,8 +19,8 @@
 
 ### chrome 浏览器上安装：
 
-- 直接下载或者 clone 本项目到本地（或者直接下载.crx文件，修改文件后缀为'.zip'或'.rar'，再进行解压）
-- 浏览器打开 'chrome://extensions/' 页面
+- 直接下载或者 clone 本项目到本地（或者直接[下载.crx文件](https://github.com/Coande/co-trans-ext/releases/download/v1.2/co-trans-ext.crx)，修改文件后缀为 '.zip'或 '.rar'，再进行解压）
+- 浏览器打开 ['chrome://extensions/'](chrome://extensions/) 页面
 - 在页面右上角开启“开发者模式”
 - 在页面左上角点击“加载已解压的扩展程序”即可
 

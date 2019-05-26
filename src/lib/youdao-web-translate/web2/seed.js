@@ -29,7 +29,7 @@
       // h + '/scripts/all-packed-utf-8.js?242748M&' + Date.parse(new Date())
       // 需要使用本地文件，本地的文件添加了https的支持
       chrome.extension.getURL(
-        'lib/youdao-web-translate/web2/scripts/all-packed-utf-8.js'
+        'src/lib/youdao-web-translate/web2/scripts/all-packed-utf-8.js'
       )
     );
     e.setAttribute('type', 'text/javascript');

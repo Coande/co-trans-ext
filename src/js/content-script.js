@@ -257,7 +257,7 @@ transBtn.mouseup((event) => {
     ga('send', 'event', 'trans-button', 'translate');
   }
   // 加载图标
-  loadCSS(chrome.extension.getURL('css/iconfont/iconfont.css'), 'iconfont');
+  loadCSS(chrome.extension.getURL('src/css/iconfont/iconfont.css'), 'iconfont');
 
   data.get('transTool', (val) => {
     // 初始化并设置active

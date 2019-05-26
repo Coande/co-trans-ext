@@ -4,7 +4,7 @@ const transIframe = $('.trans-ext__iframe');
 let keyword = '';
 
 // 加载图标
-loadCSS(chrome.extension.getURL('css/iconfont/iconfont.css'), 'iconfont');
+loadCSS(chrome.extension.getURL('src/css/iconfont/iconfont.css'), 'iconfont');
 
 data.get('transTool', (val) => {
   data.get(val, (val2) => {
@@ -64,10 +64,10 @@ transExt.find('.trans-ext__trans-page-tool').click((event) => {
     } else if (transTool === 'youdao') {
       // 有道网页翻译
       chrome.tabs.executeScript(tab.id, {
-        file: 'lib/youdao-web-translate/web2/seed.js'
+        file: 'src/lib/youdao-web-translate/web2/seed.js'
       });
       chrome.tabs.insertCSS(tab.id, {
-        file: 'lib/youdao-web-translate/web2/styles/cover.css'
+        file: 'src/lib/youdao-web-translate/web2/styles/cover.css'
       });
     }
   });

@@ -15,7 +15,7 @@ co-div {
   box-shadow: 0 0 4px 2px rgba(3, 169, 244, 0.9);
   font-size: 14px;
   box-sizing: border-box;
-  background-image: url('chrome-extension://__MSG_@@extension_id__/img/icon-48.png');
+  background-image: url('chrome-extension://__MSG_@@extension_id__/src/img/icon-48.png');
   background-position: center;
   background-size: 18px 18px;
   background-repeat: no-repeat;

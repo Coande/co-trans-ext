@@ -1,0 +1,28 @@
+{
+  "name": "co-trans-ext",
+  "version": "1.0.0",
+  "description": "![logo](https://i.loli.net/2019/04/22/5cbd80f8da40b.png)",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Coande/co-trans-ext.git"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Coande/co-trans-ext/issues"
+  },
+  "homepage": "https://github.com/Coande/co-trans-ext#readme",
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.17.3"
+  }
+}

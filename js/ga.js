@@ -1,11 +1,12 @@
-window.ga =
-  window.ga ||
-  function() {
+window.ga = window.ga
+  // eslint-disable-next-line func-names
+  || function () {
+    // eslint-disable-next-line prefer-rest-params
     (ga.q = ga.q || []).push(arguments);
   };
 ga.l = +new Date();
 
-/*************************** 初始化内容 ***********************/
+/** ************************* 初始化内容 ********************** */
 const propertyID = 'UA-65836121-2';
 ga('create', propertyID, 'auto');
 // 以下必须设置，否则会检查协议，默认只支持http和https
@@ -23,18 +24,18 @@ function setIsDisableGA(isDisable) {
 
 // 判断是否需要禁用
 const data = new ExtData();
-data.get('isEnabledAnalytics', isEnable => {
+data.get('isEnabledAnalytics', (isEnable) => {
   setIsDisableGA(!isEnable);
 });
 
-/*************************** 功能函数 ************************/
+/** ************************* 功能函数 *********************** */
 
 // 运行时记录
 // 必须设置路径，否则谷歌分析拒绝接收 chrome-extension 协议路径
 ga('send', 'pageview', '/background.html');
 
 // 监听从 content-script 传递过来的事件
-chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+chrome.extension.onRequest.addListener((request) => {
   if (request.ga) {
     ga(...request.ga);
   }

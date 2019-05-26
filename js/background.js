@@ -3,19 +3,19 @@ function isHeaderNameEqual(name1, name2) {
   return name1.toLowerCase() === name2.toLowerCase();
 }
 
-/************************ 拦截请求头，改user-agent以访问手机版网页 *****************/
+/** ********************** 拦截请求头，改user-agent以访问手机版网页 **************** */
 // 该部分参考了：https://github.com/jugglinmike/chrome-user-agent/blob/master/src/background.js
 chrome.webRequest.onBeforeSendHeaders.addListener(
-  function(details) {
+  (details) => {
     const headers = details.requestHeaders;
     // 百度翻译要特殊处理，除了首页，以下两个api也需要改user-agent才能获取到数据
     // 且只有移动端才使用该api
     // https://fanyi.baidu.com/basetrans
     // https://fanyi.baidu.com/extendtrans
     if (
-      details.url.indexOf('x-from=co-translate-extension') !== -1 ||
-      details.url.indexOf('fanyi.baidu.com/basetrans') !== -1 ||
-      details.url.indexOf('fanyi.baidu.com/extendtrans') !== -1
+      details.url.indexOf('x-from=co-translate-extension') !== -1
+      || details.url.indexOf('fanyi.baidu.com/basetrans') !== -1
+      || details.url.indexOf('fanyi.baidu.com/extendtrans') !== -1
     ) {
       let i = 0;
       for (const l = headers.length; i < l; ++i) {
@@ -24,8 +24,7 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
         }
       }
       if (i < headers.length) {
-        headers[i].value =
-          'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1';
+        headers[i].value = 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1';
       }
     }
     return {
@@ -44,22 +43,22 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
   ['requestHeaders', 'blocking']
 );
 
-/*********************** 处理部分网站CSP限制导致插件不工作问题 ******************/
+/** ********************* 处理部分网站CSP限制导致插件不工作问题 ***************** */
 function isCSPHeader(headerName) {
   return (
-    isHeaderNameEqual(headerName, 'content-security-policy') ||
-    isHeaderNameEqual(headerName, 'x-webkit-csp') ||
-    isHeaderNameEqual(headerName, 'x-content-security-policy')
+    isHeaderNameEqual(headerName, 'content-security-policy')
+    || isHeaderNameEqual(headerName, 'x-webkit-csp')
+    || isHeaderNameEqual(headerName, 'x-content-security-policy')
   );
 }
 // 参考了：https://gist.github.com/dchinyee/5992397
 // Listens when new request
 chrome.webRequest.onHeadersReceived.addListener(
-  function(details) {
+  (details) => {
     let xFrameOptionsIndex = -1;
-    for (i = 0; i < details.responseHeaders.length; i++) {
+    for (let i = 0; i < details.responseHeaders.length; i++) {
       if (isCSPHeader(details.responseHeaders[i].name)) {
-        var csp = details.responseHeaders[i].value;
+        let csp = details.responseHeaders[i].value;
 
         // 有可能只有default-src或者child-src
         csp = csp.replace(
@@ -86,6 +85,7 @@ chrome.webRequest.onHeadersReceived.addListener(
         // 有道网页翻译语音
         csp = csp.replace('object-src', 'object-src cidian.youdao.com');
 
+        // eslint-disable-next-line no-param-reassign
         details.responseHeaders[i].value = csp;
       }
 
@@ -111,11 +111,11 @@ chrome.webRequest.onHeadersReceived.addListener(
   ['blocking', 'responseHeaders']
 );
 
-/*************** 保证从插件内跳转的网页都带 x-from=co-translate-extension 参数  ***********/
+/** ************* 保证从插件内跳转的网页都带 x-from=co-translate-extension 参数  ********** */
 
 // 判断refer是否包含 co-translate-extension，保持 co-translate-extension 的存在
 // 参考了 https://stackoverflow.com/questions/26720766/redirecting-those-urls-which-are-not-having-any-referrer-urls
-var requestsToRedirect = new Object();
+const requestsToRedirect = {};
 
 // 兼容 extraHeaders
 const extraInfoSpec = ['blocking', 'requestHeaders'];
@@ -126,10 +126,10 @@ if (
 }
 
 chrome.webRequest.onBeforeSendHeaders.addListener(
-  function(details) {
+  (details) => {
     // get请求才做重定向
     if (details.method !== 'GET') {
-      return;
+      return {};
     }
 
     const headers = details.requestHeaders;
@@ -143,8 +143,8 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
     if (i < headers.length) {
       // block 掉 百度统计，影响速度
       if (
-        headers[i].value.indexOf('x-from=co-translate-extension') !== -1 &&
-        details.url.indexOf('hm.baidu.com') !== -1
+        headers[i].value.indexOf('x-from=co-translate-extension') !== -1
+        && details.url.indexOf('hm.baidu.com') !== -1
       ) {
         return { cancel: true };
       }
@@ -158,26 +158,24 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
       }
 
       // refer 中有x-from 且 当前没有 x-from 才需要处理
-      const needAddQuery =
-        headers[i].value.indexOf('x-from=co-translate-extension') !== -1 &&
-        details.url.indexOf('x-from=co-translate-extension') === -1;
+      const needAddQuery = headers[i].value.indexOf('x-from=co-translate-extension') !== -1
+        && details.url.indexOf('x-from=co-translate-extension') === -1;
       if (needAddQuery) {
         requestsToRedirect[details.requestId] = headers[i].value;
-        return;
+        return {};
       }
     }
 
     // 有道比较特殊，如果没有关键字参数会302跳转，且不一定有refer（直接访问时），导致丢失 x-from
     if (details.url.indexOf('m.youdao.com/dict') !== -1) {
       if (
-        details.url.indexOf('x-from=co-translate-extension') !== -1 &&
-        !new URL(details.url).searchParams.get('q')
+        details.url.indexOf('x-from=co-translate-extension') !== -1
+        && !new URL(details.url).searchParams.get('q')
       ) {
         requestsToRedirect[details.requestId] = details.url;
-        return;
       }
     }
-    return;
+    return {};
   },
   {
     urls: ['<all_urls>']
@@ -188,7 +186,7 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
 );
 
 chrome.webRequest.onHeadersReceived.addListener(
-  function(details) {
+  (details) => {
     if (requestsToRedirect[details.requestId]) {
       const referUrl = requestsToRedirect[details.requestId];
       delete requestsToRedirect[details.requestId];
@@ -225,15 +223,15 @@ chrome.webRequest.onHeadersReceived.addListener(
           return { redirectUrl: urlObj.href };
         }
       }
-      return;
     }
+    return {};
   },
   { urls: ['<all_urls>'] },
   ['responseHeaders', 'blocking']
 );
 
 chrome.webRequest.onErrorOccurred.addListener(
-  function(details) {
+  (details) => {
     // Cleanup in case we don't reach onHeadersReceived
     delete requestsToRedirect[details.requestId];
   },

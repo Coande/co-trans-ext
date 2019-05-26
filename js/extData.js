@@ -1,14 +1,14 @@
 // 数据存储操作对象
 function ExtData() {}
 
-ExtData.prototype.set = function(key, value, callback) {
+ExtData.prototype.set = (key, value, callback) => {
   chrome.storage.sync.set({ [key]: value }, () => {
     if (callback) callback();
   });
   this[key] = value;
 };
 
-ExtData.prototype.get = function(key, callback) {
+ExtData.prototype.get = (key, callback) => {
   const defaultOptions = {
     transTool: 'sogou',
     sogou:
@@ -24,7 +24,7 @@ ExtData.prototype.get = function(key, callback) {
       'https://m.iciba.com/KEYWORD?flag=searchBack&x-from=co-translate-extension&showDetail=SHOWDETAIL',
     isEnabledAnalytics: true
   };
-  chrome.storage.sync.get([key], result => {
+  chrome.storage.sync.get([key], (result) => {
     if (result[key] === undefined) {
       callback(defaultOptions[key]);
       return;

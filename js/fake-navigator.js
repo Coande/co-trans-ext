@@ -1,12 +1,10 @@
 // 欺骗js获取的 navigator.userAgent（有道中有个判断，不欺骗会跳转网页）
 // https://stackoverflow.com/questions/23202136/changing-navigator-useragent-using-chrome-extension
 
-var actualCode =
-  '(' +
-  function() {
-    'use strict';
-    var navigator = window.navigator;
-    var modifiedNavigator;
+const actualCode = `(${
+  () => {
+    const navigator = window.navigator;
+    let modifiedNavigator;
     if ('userAgent' in Navigator.prototype) {
       // Chrome 43+ moved all properties from navigator to the prototype,
       // so we have to modify the prototype instead of navigator.
@@ -44,10 +42,10 @@ var actualCode =
         writable: false
       }
     });
-  } +
-  ')();';
+  }
+})();`;
 
-var s = document.createElement('script');
+const s = document.createElement('script');
 s.textContent = actualCode;
 document.documentElement.appendChild(s);
 s.remove();

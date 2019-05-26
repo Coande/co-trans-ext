@@ -6,8 +6,8 @@ let keyword = '';
 // 加载图标
 loadCSS(chrome.extension.getURL('css/iconfont/iconfont.css'), 'iconfont');
 
-data.get('transTool', val => {
-  data.get(val, val2 => {
+data.get('transTool', (val) => {
+  data.get(val, (val2) => {
     transIframe.attr(
       'src',
       val2.replace('KEYWORD', '').replace('SHOWDETAIL', true)
@@ -16,7 +16,7 @@ data.get('transTool', val => {
 });
 
 // 获取并高亮当前使用的搜索工具
-data.get('transTool', val => {
+data.get('transTool', (val) => {
   const activeTransTool = transExt.find(
     `.trans-ext__tool[data-trans-tool=${val}]`
   );
@@ -25,24 +25,24 @@ data.get('transTool', val => {
 });
 
 // 添加搜索工具图标点击事件
-transExt.find(`.trans-ext__tool`).click(function(event) {
+transExt.find('.trans-ext__tool').click((event) => {
   const transTool = $(event.target).data('trans-tool');
-  transIframe.eq(0)[0].contentWindow.postMessage({ changeTransTool: transTool },'*');
+  transIframe.eq(0)[0].contentWindow.postMessage({ changeTransTool: transTool }, '*');
   ga('send', 'event', 'trans-tool', 'change', transTool);
 });
 
 // 获取 iframe 内输入值后切换 翻译
-window.addEventListener('message',function(event){
+window.addEventListener('message', (event) => {
   const transTool = event.data.changeTransTool;
-  if(transTool) {
+  if (transTool) {
     keyword = event.data.keyword;
     transExt.find('.trans-ext__tool').removeClass('active');
     transExt
       .find(`.trans-ext__tool[data-trans-tool=${transTool}]`)
       .addClass('active');
     data.set('transTool', transTool);
-    data.get('transTool', val => {
-      data.get(val, val2 => {
+    data.get('transTool', (val) => {
+      data.get(val, (val2) => {
         transIframe.attr(
           'src',
           val2.replace('KEYWORD', keyword).replace('SHOWDETAIL', true)
@@ -53,10 +53,10 @@ window.addEventListener('message',function(event){
 });
 
 // 网页翻译
-transExt.find('.trans-ext__trans-page-tool').click(function() {
-  const transTool = $(this).data('trans-tool');
+transExt.find('.trans-ext__trans-page-tool').click((event) => {
+  const transTool = $(event.target).data('trans-tool');
   ga('send', 'event', 'page-trans-tool', 'translate', transTool);
-  chrome.tabs.getSelected(null, function(tab) {
+  chrome.tabs.getSelected(null, (tab) => {
     if (transTool === 'yandex') {
       window.open(
         `https://translate.yandex.com/translate?url=${tab.url}&lang=en-zh`

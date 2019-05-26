@@ -1,7 +1,7 @@
 // iframe页面通讯
 // https://www.cnblogs.com/syll/p/8640329.html
 // 接收iframe外部通过postMessage传递过来的数据
-window.addEventListener('message', function(event) {
+window.addEventListener('message', (event) => {
   if (event.data.op === 'showDetail') {
     document.body.classList.add('trans-ext-detail');
   } else if (event.data.op === 'hideDetail') {
@@ -9,11 +9,11 @@ window.addEventListener('message', function(event) {
   }
 });
 
-window.addEventListener('message',function(event){
-  if(event.data.changeTransTool) {
-    const keyword = $('#textarea-source').val() || $('#j-textarea').val() 
+window.addEventListener('message', (event) => {
+  if (event.data.changeTransTool) {
+    const keyword = $('#textarea-source').val() || $('#j-textarea').val()
       || $('#source').val() || $('#index-input-main').val() || $('#formInput').val();
-    window.parent.postMessage({ changeTransTool: event.data.changeTransTool, keyword: keyword ? keyword : '' }, '*');
+    window.parent.postMessage({ changeTransTool: event.data.changeTransTool, keyword: keyword || '' }, '*');
   }
 });
 

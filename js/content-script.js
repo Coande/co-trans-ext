@@ -1,4 +1,4 @@
-/********************* 插件用到的元素模板 ****************/
+/** ******************* 插件用到的元素模板 *************** */
 // 插件注入的页面结构
 const transExt = $(`
 <co-div class="trans-ext">
@@ -26,7 +26,7 @@ const transExt = $(`
 </co-div>
 `);
 
-/********************** 初始化相关 ***********************/
+/** ******************** 初始化相关 ********************** */
 
 // 存储选中的文本内容
 let selectedText;
@@ -40,13 +40,16 @@ let isMoving = false;
 // 当前是否处于固定右侧状态
 let isLockPosition = false;
 
+// 移入翻译图标相关数据
+let hoverTimeoutId;
+let isTriggerByHover = false;
+
 // 后续需要操作的相关元素
 const transBtn = transExt.find('.trans-ext__trans-btn');
 transBtn.hide();
 const transPopup = transExt.find('.trans-ext__popup');
 transPopup.hide();
 const transIframe = transExt.find('.trans-ext__iframe');
-const transPopupTitleBar = transExt.find('.trans-ext__title-bar');
 
 // 默认显示展开按钮
 transExt.find('.trans-ext__tool-up').hide();
@@ -55,7 +58,7 @@ transExt.find('.trans-ext__tool-left').hide();
 transExt.find('.trans-ext__tool-position').hide();
 
 // 获取并高亮当前使用的搜索工具
-data.get('transTool', val => {
+data.get('transTool', (val) => {
   const activeTransTool = transExt.find(
     `.trans-ext__tool[data-trans-tool=${val}]`
   );
@@ -63,7 +66,7 @@ data.get('transTool', val => {
   activeTransTool.addClass('active');
 });
 
-/************************** 事件处理 ***********************/
+/** ************************ 事件处理 ********************** */
 
 // 谷歌分析
 function ga(...args) {
@@ -76,7 +79,7 @@ function ga(...args) {
 }
 
 // 切换是否显示输入内容、翻译语言切换等界面元素
-transExt.find('.trans-ext__tool-down').click(function() {
+transExt.find('.trans-ext__tool-down').click(() => {
   ga('send', 'event', 'input-view', 'show');
   transIframe.eq(0)[0].contentWindow.postMessage(
     {
@@ -87,7 +90,7 @@ transExt.find('.trans-ext__tool-down').click(function() {
   transExt.find('.trans-ext__tool-down').hide();
   transExt.find('.trans-ext__tool-up').show();
 });
-transExt.find('.trans-ext__tool-up').click(function() {
+transExt.find('.trans-ext__tool-up').click(() => {
   ga('send', 'event', 'input-view', 'hide');
   transIframe.eq(0)[0].contentWindow.postMessage(
     {
@@ -100,7 +103,7 @@ transExt.find('.trans-ext__tool-up').click(function() {
 });
 
 // 固定到右边
-transExt.find('.trans-ext__tool-right').click(function() {
+transExt.find('.trans-ext__tool-right').click(() => {
   ga('send', 'event', 'lock-right', 'lock');
   isLockPosition = true;
   transExt.find('.trans-ext__tool-right').hide();
@@ -108,20 +111,11 @@ transExt.find('.trans-ext__tool-right').click(function() {
   $('html').addClass('co-transition').addClass('co-fixed-r');
 });
 // 固定到左边
-transExt.find('.trans-ext__tool-left').click(function() {
+transExt.find('.trans-ext__tool-left').click(() => {
   ga('send', 'event', 'lock-left', 'lock');
   transExt.find('.trans-ext__tool-left').hide();
   transExt.find('.trans-ext__tool-position').show();
   $('html').removeClass('co-fixed-r').addClass('co-fixed-l');
-});
-
-// 恢复初始
-transExt.find('.trans-ext__tool-position').click(function() {
-  transPopup.css({
-    top: '0',
-    left: '0'
-  });
-  resetStyle();
 });
 
 // 样式初始化
@@ -135,6 +129,15 @@ function resetStyle() {
     $('html').removeClass('co-transition');
   }, 200);
 }
+
+// 恢复初始
+transExt.find('.trans-ext__tool-position').click(() => {
+  transPopup.css({
+    top: '0',
+    left: '0'
+  });
+  resetStyle();
+});
 
 // 处理拖动过程中事件可能被iframe捕获而丢失事件的问题
 // https://blog.csdn.net/zgrbsbf/article/details/71423401
@@ -168,23 +171,23 @@ function handleClosePopup() {
 transExt.find('.trans-ext__tool-close').click(handleClosePopup);
 
 // 监听 popup 中翻译切换图标的点击事件
-transExt.find(`.trans-ext__tool`).click(function(event) {
+transExt.find('.trans-ext__tool').click((event) => {
   const transTool = $(event.target).data('trans-tool');
-  transIframe.eq(0)[0].contentWindow.postMessage({ changeTransTool: transTool },'*'); 
+  transIframe.eq(0)[0].contentWindow.postMessage({ changeTransTool: transTool }, '*');
   ga('send', 'event', 'trans-tool', 'change', transTool);
 });
 
 // 获取 iframe 内输入值后切换 翻译
-window.addEventListener('message',function(event){
+window.addEventListener('message', (event) => {
   const transTool = event.data.changeTransTool;
-  if(transTool) {
+  if (transTool) {
     selectedText = event.data.keyword;
     transExt.find('.trans-ext__tool').removeClass('active');
     transExt
       .find(`.trans-ext__tool[data-trans-tool=${transTool}]`)
       .addClass('active');
     data.set('transTool', transTool);
-    data.get(transTool, val => {
+    data.get(transTool, (val) => {
       let iframeURL = val;
       iframeURL = iframeURL.replace('KEYWORD', encodeURIComponent(selectedText));
       iframeURL = iframeURL.replace(
@@ -197,7 +200,7 @@ window.addEventListener('message',function(event){
 });
 
 // 点击翻译按钮时防止划选的文本消失掉
-transExt.on('mousedown mouseup', function(event) {
+transExt.on('mousedown mouseup', (event) => {
   event.preventDefault();
   event.stopPropagation();
 });
@@ -214,11 +217,11 @@ function calcInitPopupPosition(event) {
 
   const rightDiff = rightPos - window.innerWidth;
   if (rightDiff > 0) {
-    realLeftPos = realLeftPos - rightDiff;
+    realLeftPos -= rightDiff;
   }
   const bottomDiff = bottomPos - window.innerHeight;
   if (bottomDiff > 0) {
-    realTopPos = realTopPos - bottomDiff;
+    realTopPos -= bottomDiff;
   }
   transPopup.css({
     top: realTopPos,
@@ -231,22 +234,20 @@ function calcInitPopupPosition(event) {
 }
 
 // 移入翻译按钮 500ms 自动弹出
-let hoverTimeoutId;
-let isTriggerByHover = false;
-transBtn.mouseenter(function() {
+transBtn.mouseenter(() => {
   hoverTimeoutId = setTimeout(() => {
     isTriggerByHover = true;
     transBtn.mouseup();
   }, 500);
 });
 
-transBtn.mouseleave(function() {
+transBtn.mouseleave(() => {
   clearTimeout(hoverTimeoutId);
 });
 
 
 // 点击“译”字显示翻译内容页 popup
-transBtn.mouseup(function showPopup(event) {
+transBtn.mouseup((event) => {
   clearTimeout(hoverTimeoutId);
   event.stopPropagation();
   ga('send', 'pageview');
@@ -258,7 +259,7 @@ transBtn.mouseup(function showPopup(event) {
   // 加载图标
   loadCSS(chrome.extension.getURL('css/iconfont/iconfont.css'), 'iconfont');
 
-  data.get('transTool', val => {
+  data.get('transTool', (val) => {
     // 初始化并设置active
     transExt.find('.trans-ext__tool').removeClass('active');
     const activeTransTool = transExt.find(
@@ -266,7 +267,7 @@ transBtn.mouseup(function showPopup(event) {
     );
     activeTransTool.addClass('active');
 
-    data.get(val, val2 => {
+    data.get(val, (val2) => {
       transIframe.attr(
         'src',
         val2
@@ -279,7 +280,7 @@ transBtn.mouseup(function showPopup(event) {
 });
 
 // 监听是否需要显示译字或者隐藏popup等
-$(document).mouseup(function(event) {
+$(document).mouseup((event) => {
   // 测试发现：选中文本后，再次keyup选中区域内内容才取消选中，keydown选中区域外内容马上取消选中
   // 猜测：这是为了处理拖拽选中内容而这样设计的吧
   // 异步获取选中的文本（会产生适当的延时），避免再次点击上次选中文本区域内时获取到上次选中内容的情况
@@ -292,8 +293,8 @@ $(document).mouseup(function(event) {
     if (isLockPosition) {
       if (selectedText) {
         // 直接翻译
-        data.get('transTool', transTool => {
-          data.get(transTool, val => {
+        data.get('transTool', (transTool) => {
+          data.get(transTool, (val) => {
             let iframeURL = val;
             iframeURL = iframeURL.replace('KEYWORD', encodeURIComponent(selectedText));
             iframeURL = iframeURL.replace(
@@ -326,14 +327,14 @@ $(document).mouseup(function(event) {
   }, 0);
 });
 
-/********************** popup 拖拽处理 ***********************/
+/** ******************** popup 拖拽处理 ********************** */
 let startX = 0;
 let startY = 0;
 let startTop = 0;
 let startLeft = 0;
 
 // popup 拖拽开始
-$(transPopup).on('mousedown', '.trans-ext__title-bar', function(event) {
+$(transPopup).on('mousedown', '.trans-ext__title-bar', (event) => {
   if (isLockPosition) {
     return;
   }
@@ -345,7 +346,7 @@ $(transPopup).on('mousedown', '.trans-ext__title-bar', function(event) {
 });
 
 // popup 拖拽过程中
-$(document).on('mousemove', function(event) {
+$(document).on('mousemove', (event) => {
   if (isMoving) {
     const moveX = event.clientX - startX;
     const moveY = event.clientY - startY;
@@ -367,27 +368,28 @@ $(document).on('mousemove', function(event) {
     const widthDiff = realLeftPos + transPopup.width() - maxWidth;
 
     if (heightDiff > 0) {
-      realTopPos = realTopPos - heightDiff;
+      realTopPos -= heightDiff;
     }
 
     if (widthDiff > 0) {
-      realLeftPos = realLeftPos - widthDiff;
+      realLeftPos -= widthDiff;
     }
 
-    if (realLeftPos)
+    if (realLeftPos) {
       transPopup.css({
         top: realTopPos,
         left: realLeftPos
       });
+    }
   }
 });
 
 // popup 拖拽结束
-$(document).on('mouseup', function() {
+$(document).on('mouseup', () => {
   setIsMoving(false);
 });
 // popup 拖拽结束
 // transPopup事件已经被阻止冒泡了，所以，document监听不到，需要额外监听
-$(transPopup).on('mouseup', function() {
+$(transPopup).on('mouseup', () => {
   setIsMoving(false);
 });

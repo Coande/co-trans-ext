@@ -21,7 +21,7 @@
       "js": [
         "src/lib/jquery-3.4.0.slim.min.js",
         "src/js/utils.js",
-        "src/js/extData.js",
+        "src/js/ext-data.js",
         "src/js/content-script.js"
       ],
       "css": ["src/css/extension.css"]

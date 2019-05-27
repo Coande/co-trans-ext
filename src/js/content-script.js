@@ -1,8 +1,13 @@
+/* eslint-disable max-len */
 /** ******************* 插件用到的元素模板 *************** */
 // 插件注入的页面结构
 const transExt = $(`
 <co-div class="trans-ext">
   <co-div class="trans-ext__trans-btn"></co-div>
+  <co-div class="trans-ext__popup-arrow">
+    <co-div></co-div>
+    <co-div></co-div>
+  </co-div>
   <co-div class="trans-ext__popup">
     <co-div class="trans-ext__title-bar">
       <co-div class="trans-ext__title-center">
@@ -50,7 +55,8 @@ transBtn.hide();
 const transPopup = transExt.find('.trans-ext__popup');
 transPopup.hide();
 const transIframe = transExt.find('.trans-ext__iframe');
-
+const arrow = transExt.find('.trans-ext__popup-arrow');
+arrow.hide();
 // 默认显示展开按钮
 transExt.find('.trans-ext__tool-up').hide();
 // 默认显示 固定到右侧按钮
@@ -155,6 +161,7 @@ function handleClosePopup() {
   // 如果没有选中文本，确保隐藏插件内容
   transBtn.hide();
   transPopup.hide();
+  arrow.hide();
   transIframe.attr('src', '');
   resetStyle();
 
@@ -205,32 +212,101 @@ transExt.on('mousedown mouseup', (event) => {
   event.stopPropagation();
 });
 
-// 计算 popup 初始位置
-function calcInitPopupPosition(event) {
-  // 计算定位，避免超出可视范围
-  // 参考 https://github.com/Selection-Translator/crx-selection-translate/blob/master/src/content-scripts/st/restrict.js
-  const transBtnRect = event.target.getBoundingClientRect();
-  let realLeftPos = $(document).scrollLeft() + transBtnRect.left;
-  let realTopPos = $(document).scrollTop() + transBtnRect.top;
-  const rightPos = transBtnRect.left + transPopup.width();
-  const bottomPos = transBtnRect.top + transPopup.height();
+// 获取所选内容边界
+// 参考 https://stackoverflow.com/questions/12603397/calculate-width-height-of-the-selected-text-javascript
+function getSelectionDimensions() {
+  let sel = document.selection;
+  let range;
+  let width = 0;
+  let height = 0;
+  let top = 0;
+  let left = 0;
+  if (sel) {
+    if (sel.type !== 'Control') {
+      range = sel.createRange();
+      width = range.boundingWidth;
+      height = range.boundingHeight;
+      top = range.boundingTop;
+      left = range.boundingLeft;
+    }
+  } else if (window.getSelection) {
+    sel = window.getSelection();
+    if (sel.rangeCount) {
+      range = sel.getRangeAt(0).cloneRange();
+      if (range.getBoundingClientRect) {
+        const rect = range.getBoundingClientRect();
+        width = rect.right - rect.left;
+        height = rect.bottom - rect.top;
+        top = rect.top;
+        left = rect.left;
+      }
+    }
+  }
+  return {
+    width, height, top, left
+  };
+}
 
-  const rightDiff = rightPos - window.innerWidth;
-  if (rightDiff > 0) {
-    realLeftPos -= rightDiff;
+// 计算 popup 初始位置
+function calcInitPopupPosition() {
+  const arrowChilds = transExt.find('.trans-ext__popup-arrow>co-div');
+  const arrowChild = transExt.find('.trans-ext__popup-arrow>co-div:last-child');
+  const selectedRect = getSelectionDimensions();
+  const selectedCenter = {
+    x: selectedRect.left + selectedRect.width / 2,
+    y: selectedRect.top + selectedRect.height / 2
+  };
+
+  let popTop = selectedRect.top + selectedRect.height + $(document).scrollTop() + arrowChild.outerHeight(true);
+  let popLeft = selectedRect.left + (selectedRect.width - transPopup.width()) / 2 + $(document).scrollLeft();
+  let arrowTop = popTop - arrowChild.outerHeight(true);
+
+  // 是否位于 viewport 上半截
+  const isTop = selectedCenter.y < window.innerHeight / 2;
+  if (!isTop) {
+    popTop = selectedRect.top + $(document).scrollTop() - transPopup.height() - arrowChild.outerHeight(true);
+    arrowTop = selectedRect.top + $(document).scrollTop() - arrowChild.outerHeight(true);
+    arrowChilds.css({ transform: 'rotate(180deg)' });
+    arrowChild.css({
+      borderColor: 'rgb(255, 255, 255) transparent',
+      top: '-1px'
+    });
+  } else {
+    arrowChilds.css({ transform: 'rotate(0deg)' });
+    arrowChild.css({
+      borderColor: `${transExt.find('.trans-ext__title-bar').css('background-color')} transparent`,
+      top: '1px'
+    });
   }
-  const bottomDiff = bottomPos - window.innerHeight;
-  if (bottomDiff > 0) {
-    realTopPos -= bottomDiff;
+
+  // 左边是否能容纳弹窗
+  const disableLeft = selectedCenter.x < transPopup.width() / 2;
+  if (disableLeft) {
+    popLeft = selectedRect.left + selectedRect.width / 2 + $(document).scrollLeft();
   }
+
+  // 右边是否能容纳弹窗
+  const disableRigth = selectedCenter.x > window.innerWidth - transPopup.width() / 2;
+  if (disableRigth) {
+    popLeft = selectedRect.left + selectedRect.width / 2 - transPopup.width() + $(document).scrollLeft();
+  }
+
+  // 弹出位置
   transPopup.css({
-    top: realTopPos,
-    left: realLeftPos
+    top: popTop,
+    left: popLeft
+  });
+
+  // arrow 位置
+  arrow.css({
+    top: arrowTop,
+    left: selectedCenter.x + $(document).scrollLeft()
   });
 
   // 弹出翻译窗，隐藏翻译按钮
   transBtn.hide();
   transPopup.show();
+  arrow.show();
 }
 
 // 移入翻译按钮 500ms 自动弹出
@@ -319,6 +395,7 @@ $(document).mouseup((event) => {
         left: event.pageX + 15
       });
       transPopup.hide();
+      arrow.hide();
       transIframe.attr('src', '');
       transBtn.show();
     } else {
@@ -338,6 +415,7 @@ $(transPopup).on('mousedown', '.trans-ext__title-bar', (event) => {
   if (isLockPosition) {
     return;
   }
+  arrow.hide();
   setIsMoving(true);
   startX = event.clientX;
   startY = event.clientY;

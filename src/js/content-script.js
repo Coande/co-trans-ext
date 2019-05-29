@@ -258,8 +258,8 @@ function calcInitPopupPosition() {
     x: selectedRect.left + selectedRect.width / 2,
     y: selectedRect.top + selectedRect.height / 2
   };
-  const arrowHeight = Math.abs(arrowChild.height());
-  const arrowWidth = Math.abs(arrowChild.width());
+  const arrowHeight = 8;
+  const arrowWidth = 16;
 
   let popTop = selectedRect.top + selectedRect.height + $(document).scrollTop() + arrowHeight;
   let popLeft = selectedRect.left + (selectedRect.width - transPopup.width()) / 2 + $(document).scrollLeft();
@@ -290,9 +290,9 @@ function calcInitPopupPosition() {
   }
 
   // 右边是否能容纳弹窗
-  const disableRigth = selectedCenter.x > window.innerWidth - transPopup.width() / 2 + arrowWidth;
+  const disableRigth = selectedCenter.x > window.innerWidth - transPopup.width() / 2;
   if (disableRigth) {
-    popLeft = selectedRect.left + selectedRect.width / 2 - transPopup.width() + $(document).scrollLeft();
+    popLeft = selectedRect.left + selectedRect.width / 2 - transPopup.width() + $(document).scrollLeft() + arrowWidth;
   }
 
   // 弹出位置

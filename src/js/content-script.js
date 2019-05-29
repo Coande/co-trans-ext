@@ -115,6 +115,7 @@ transExt.find('.trans-ext__tool-right').click(() => {
   transExt.find('.trans-ext__tool-right').hide();
   transExt.find('.trans-ext__tool-left').show();
   $('html').addClass('co-transition').addClass('co-fixed-r');
+  arrow.hide();
 });
 // 固定到左边
 transExt.find('.trans-ext__tool-left').click(() => {
@@ -122,6 +123,7 @@ transExt.find('.trans-ext__tool-left').click(() => {
   transExt.find('.trans-ext__tool-left').hide();
   transExt.find('.trans-ext__tool-position').show();
   $('html').removeClass('co-fixed-r').addClass('co-fixed-l');
+  arrow.hide();
 });
 
 // 样式初始化

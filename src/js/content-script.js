@@ -256,16 +256,18 @@ function calcInitPopupPosition() {
     x: selectedRect.left + selectedRect.width / 2,
     y: selectedRect.top + selectedRect.height / 2
   };
+  const arrowHeight = Math.abs(arrowChild.height());
+  const arrowWidth = Math.abs(arrowChild.width());
 
-  let popTop = selectedRect.top + selectedRect.height + $(document).scrollTop() + arrowChild.outerHeight(true);
+  let popTop = selectedRect.top + selectedRect.height + $(document).scrollTop() + arrowHeight;
   let popLeft = selectedRect.left + (selectedRect.width - transPopup.width()) / 2 + $(document).scrollLeft();
-  let arrowTop = popTop - arrowChild.outerHeight(true);
+  let arrowTop = popTop - arrowHeight;
 
   // 是否位于 viewport 上半截
   const isTop = selectedCenter.y < window.innerHeight / 2;
   if (!isTop) {
-    popTop = selectedRect.top + $(document).scrollTop() - transPopup.height() - arrowChild.outerHeight(true);
-    arrowTop = selectedRect.top + $(document).scrollTop() - arrowChild.outerHeight(true);
+    popTop = selectedRect.top + $(document).scrollTop() - transPopup.height() - arrowHeight;
+    arrowTop = selectedRect.top + $(document).scrollTop() - arrowHeight;
     arrowChilds.css({ transform: 'rotate(180deg)' });
     arrowChild.css({
       borderColor: 'rgb(255, 255, 255) transparent',
@@ -282,11 +284,11 @@ function calcInitPopupPosition() {
   // 左边是否能容纳弹窗
   const disableLeft = selectedCenter.x < transPopup.width() / 2;
   if (disableLeft) {
-    popLeft = selectedRect.left + selectedRect.width / 2 + $(document).scrollLeft();
+    popLeft = selectedRect.left + selectedRect.width / 2 + $(document).scrollLeft() - arrowWidth;
   }
 
   // 右边是否能容纳弹窗
-  const disableRigth = selectedCenter.x > window.innerWidth - transPopup.width() / 2;
+  const disableRigth = selectedCenter.x > window.innerWidth - transPopup.width() / 2 + arrowWidth;
   if (disableRigth) {
     popLeft = selectedRect.left + selectedRect.width / 2 - transPopup.width() + $(document).scrollLeft();
   }
@@ -415,7 +417,6 @@ $(transPopup).on('mousedown', '.trans-ext__title-bar', (event) => {
   if (isLockPosition) {
     return;
   }
-  arrow.hide();
   setIsMoving(true);
   startX = event.clientX;
   startY = event.clientY;
@@ -452,8 +453,9 @@ $(document).on('mousemove', (event) => {
     if (widthDiff > 0) {
       realLeftPos -= widthDiff;
     }
-
-    if (realLeftPos) {
+    const canMove = realLeftPos && (Math.abs(moveX) > 5 || Math.abs(moveY) > 5);
+    if (canMove) {
+      arrow.hide();
       transPopup.css({
         top: realTopPos,
         left: realLeftPos

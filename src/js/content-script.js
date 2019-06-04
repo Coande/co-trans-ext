@@ -216,13 +216,14 @@ transExt.on('mousedown mouseup', (event) => {
 
 // 获取所选内容边界
 // 参考 https://stackoverflow.com/questions/12603397/calculate-width-height-of-the-selected-text-javascript
-function getSelectionDimensions(event) {
+function getSelectionDimensions() {
   let sel = document.selection;
   let range;
   let width = 0;
   let height = 0;
   let top = 0;
   let left = 0;
+  let special = false;
   if (sel) {
     if (sel.type !== 'Control') {
       range = sel.createRange();
@@ -249,19 +250,20 @@ function getSelectionDimensions(event) {
     width = transBtn.width();
     height = transBtn.height();
     // 获取transBtn位置并减去transBtn的偏移
-    top = $(event.target).position().top - 15;
-    left = $(event.target).position().left - 15;
+    top = transBtn.position().top - $(document).scrollTop() - 15;
+    left = transBtn.position().left - $(document).scrollLeft() - 15;
+    special = true;
   }
   return {
-    width, height, top, left
+    width, height, top, left, special
   };
 }
 
 // 计算 popup 初始位置
-function calcInitPopupPosition(event) {
+function calcInitPopupPosition() {
   const arrowChilds = transExt.find('.trans-ext__popup-arrow>co-div');
   const arrowChild = transExt.find('.trans-ext__popup-arrow>co-div:last-child');
-  const selectedRect = getSelectionDimensions(event);
+  const selectedRect = getSelectionDimensions();
   // 相对于浏览器的中心点位置
   const selectedCenter = {
     x: selectedRect.left + selectedRect.width / 2,

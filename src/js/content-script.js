@@ -216,7 +216,7 @@ transExt.on('mousedown mouseup', (event) => {
 
 // 获取所选内容边界
 // 参考 https://stackoverflow.com/questions/12603397/calculate-width-height-of-the-selected-text-javascript
-function getSelectionDimensions() {
+function getSelectionDimensions(event) {
   let sel = document.selection;
   let range;
   let width = 0;
@@ -244,16 +244,25 @@ function getSelectionDimensions() {
       }
     }
   }
+  // input 和 area 获取不到位置信息，需要特别处理
+  if (width === 0 && height === 0) {
+    width = transBtn.width();
+    height = transBtn.height();
+    // 获取transBtn位置并减去transBtn的偏移
+    top = $(event.target).position().top - 15;
+    left = $(event.target).position().left - 15;
+  }
   return {
     width, height, top, left
   };
 }
 
 // 计算 popup 初始位置
-function calcInitPopupPosition() {
+function calcInitPopupPosition(event) {
   const arrowChilds = transExt.find('.trans-ext__popup-arrow>co-div');
   const arrowChild = transExt.find('.trans-ext__popup-arrow>co-div:last-child');
-  const selectedRect = getSelectionDimensions();
+  const selectedRect = getSelectionDimensions(event);
+  // 相对于浏览器的中心点位置
   const selectedCenter = {
     x: selectedRect.left + selectedRect.width / 2,
     y: selectedRect.top + selectedRect.height / 2
@@ -261,15 +270,17 @@ function calcInitPopupPosition() {
   const arrowHeight = 8;
   const arrowWidth = 16;
 
-  let popTop = selectedRect.top + selectedRect.height + $(document).scrollTop() + arrowHeight;
-  let popLeft = selectedRect.left + (selectedRect.width - transPopup.width()) / 2 + $(document).scrollLeft();
+  // 假设选中文字下方空间足够容纳弹窗
+  let popTop = $(document).scrollTop() + selectedRect.top + selectedRect.height + arrowHeight;
+  let popLeft = $(document).scrollLeft() + selectedRect.left + (selectedRect.width - transPopup.width()) / 2;
   let arrowTop = popTop - arrowHeight;
 
-  // 是否位于 viewport 上半截
+  // 选中内容是否位于 viewport 上半截
   const isTop = selectedCenter.y < window.innerHeight / 2;
   if (!isTop) {
-    popTop = selectedRect.top + $(document).scrollTop() - transPopup.height() - arrowHeight;
-    arrowTop = selectedRect.top + $(document).scrollTop() - arrowHeight;
+    // 选中内容位于下半截，弹窗定位于上选中内容上方
+    popTop = $(document).scrollTop() + selectedRect.top - transPopup.height() - arrowHeight;
+    arrowTop = $(document).scrollTop() + selectedRect.top - arrowHeight;
     arrowChilds.css({ transform: 'rotate(180deg)' });
     arrowChild.css({
       borderColor: 'rgb(255, 255, 255) transparent',
@@ -286,13 +297,13 @@ function calcInitPopupPosition() {
   // 左边是否能容纳弹窗
   const disableLeft = selectedCenter.x < transPopup.width() / 2;
   if (disableLeft) {
-    popLeft = selectedRect.left + selectedRect.width / 2 + $(document).scrollLeft() - arrowWidth;
+    popLeft = $(document).scrollLeft() + selectedCenter.x - arrowWidth;
   }
 
   // 右边是否能容纳弹窗
   const disableRigth = selectedCenter.x > window.innerWidth - transPopup.width() / 2;
   if (disableRigth) {
-    popLeft = selectedRect.left + selectedRect.width / 2 - transPopup.width() + $(document).scrollLeft() + arrowWidth;
+    popLeft = $(document).scrollLeft() + selectedCenter.x - transPopup.width() + arrowWidth;
   }
 
   // 弹出位置
@@ -435,10 +446,10 @@ $(document).on('mousemove', (event) => {
     // 避免出现滚动条
     let maxWidth = $(document.body).width();
     let maxHeight = $(document.body).height();
-    if ($(document.body).width() < $(window).width()) {
+    if (maxWidth < $(window).width()) {
       maxWidth = $(window).width();
     }
-    if ($(document.body).height() < $(window).height()) {
+    if (maxHeight < $(window).height()) {
       maxHeight = $(window).height();
     }
 
@@ -455,13 +466,13 @@ $(document).on('mousemove', (event) => {
     if (widthDiff > 0) {
       realLeftPos -= widthDiff;
     }
-    const canMove = realLeftPos && (Math.abs(moveX) > 5 || Math.abs(moveY) > 5);
-    if (canMove) {
+    transPopup.css({
+      top: realTopPos,
+      left: realLeftPos
+    });
+    // 移动时，隐藏箭头
+    if (Math.abs(moveX) > 0 || Math.abs(moveY) > 0) {
       arrow.hide();
-      transPopup.css({
-        top: realTopPos,
-        left: realLeftPos
-      });
     }
   }
 });

@@ -49,6 +49,9 @@ let isLockPosition = false;
 let hoverTimeoutId;
 let isTriggerByHover = false;
 
+// 打开弹窗延时，避免hover弹出时点击导致弹窗隐藏
+let waitingForPopupShow = false;
+
 // 后续需要操作的相关元素
 const transBtn = transExt.find('.trans-ext__trans-btn');
 transBtn.hide();
@@ -331,6 +334,11 @@ transBtn.mouseenter(() => {
   hoverTimeoutId = setTimeout(() => {
     isTriggerByHover = true;
     transBtn.mouseup();
+    waitingForPopupShow = true;
+    // 设置延时，避免刚好弹出时用户点击而又没有点击中弹窗的情况
+    setTimeout(() => {
+      waitingForPopupShow = false;
+    }, 700);
   }, 500);
 });
 
@@ -415,7 +423,7 @@ $(document).mouseup((event) => {
       arrow.hide();
       transIframe.attr('src', '');
       transBtn.show();
-    } else {
+    } else if (!waitingForPopupShow) {
       handleClosePopup();
     }
   }, 0);

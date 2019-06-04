@@ -22,7 +22,7 @@ const transExt = $(`
         <co-i class="co-iconfont co-icon-shouqi trans-ext__tool-up" title="收起更多"></co-i>
         <co-i class="co-iconfont co-icon-xiangyoujiantou trans-ext__tool-right" title="固定到右边"></co-i>
         <co-i class="co-iconfont co-icon-xiangzuojiantou-copy trans-ext__tool-left" title="固定到左边"></co-i>
-        <co-i class="co-iconfont co-icon-suoxiao1 trans-ext__tool-position" title="恢复初始样式"></co-i>
+        <co-i class="co-iconfont co-icon-suoxiao1 trans-ext__tool-position" title="取消固定"></co-i>
         <co-i class="co-iconfont co-icon-guanbi trans-ext__tool-close" title="关闭"></co-i>
       </co-div>
     </co-div>
@@ -138,10 +138,10 @@ function resetStyle() {
   }, 200);
 }
 
-// 恢复初始
+// 取消固定
 transExt.find('.trans-ext__tool-position').click(() => {
   transPopup.css({
-    top: '0',
+    top: $(document).scrollTop(),
     left: '0'
   });
   resetStyle();

@@ -277,10 +277,10 @@ function calcInitPopupPosition() {
   let popLeft = $(document).scrollLeft() + selectedRect.left + (selectedRect.width - transPopup.width()) / 2;
   let arrowTop = popTop - arrowHeight;
 
-  // 选中内容是否位于 viewport 上半截
-  const isTop = selectedCenter.y < window.innerHeight / 2;
-  if (!isTop) {
-    // 选中内容位于下半截，弹窗定位于上选中内容上方
+  // 选中文本下部能否放下弹窗
+  const canPlaceBottom = selectedRect.top + selectedRect.height + transPopup.height() < window.innerHeight;
+  if (!canPlaceBottom) {
+    // 下方放不下弹窗，定位到上方
     popTop = $(document).scrollTop() + selectedRect.top - transPopup.height() - arrowHeight;
     arrowTop = $(document).scrollTop() + selectedRect.top - arrowHeight;
     arrowChilds.css({ transform: 'rotate(180deg)' });

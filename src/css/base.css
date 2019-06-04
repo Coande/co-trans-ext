@@ -3,7 +3,7 @@
   height: 10px;
 }
 ::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
-  background: rgba(3, 169, 244, 0.9);
+  background: rgba(3, 169, 244);
 }
 ::-webkit-scrollbar-track {/*滚动条里面轨道*/
   background: #B3E5FC;

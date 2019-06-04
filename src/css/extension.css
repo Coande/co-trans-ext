@@ -34,7 +34,7 @@ co-div {
   width: 350px;
   height: 440px;
   box-shadow: 0 0 2px 0px #808080;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255);
   position: absolute;
   z-index: 99999;
   /* 去除行内元素的多余间隙 */
@@ -82,7 +82,7 @@ co-div {
 
 .trans-ext__title-bar {
   height: 40px;
-  background-color: rgba(3, 169, 244, 0.9);
+  background-color: rgba(3, 169, 244);
   position: relative;
   cursor: move;
 }

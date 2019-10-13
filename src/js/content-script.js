@@ -87,6 +87,22 @@ function ga(...args) {
   });
 }
 
+// iframe 加载超时处理
+let iframeTimer;
+const IFRAME_TIMEOUT = 6000;
+function iframeTimeOut() {
+  // eslint-disable-next-line no-console
+  console.log('iframe加载超时了');
+  window.stop();
+}
+function startLoadIframe() {
+  // 超时处理
+  iframeTimer = setTimeout(iframeTimeOut, IFRAME_TIMEOUT);
+  transIframe[0].onload = () => {
+    clearTimeout(iframeTimer);
+  };
+}
+
 // 切换是否显示输入内容、翻译语言切换等界面元素
 transExt.find('.trans-ext__tool-down').click(() => {
   ga('send', 'event', 'input-view', 'show');
@@ -179,6 +195,34 @@ function handleClosePopup() {
   isTriggerByHover = false;
 }
 
+// 切换翻译工具
+let changeTransToolTimer;
+function changeTransTool(transTool, keyword) {
+  clearTimeout(changeTransToolTimer);
+  clearTimeout(iframeTimer);
+  // 切换后先清空页面
+  transIframe.attr('src', '');
+
+  // 避免页面错误时丢失 keyword 的问题
+  selectedText = keyword || selectedText;
+  transExt.find('.trans-ext__tool').removeClass('active');
+  transExt
+    .find(`.trans-ext__tool[data-trans-tool=${transTool}]`)
+    .addClass('active');
+  data.set('transTool', transTool);
+  data.get(transTool, (val) => {
+    let iframeURL = val;
+    iframeURL = iframeURL.replace('KEYWORD', encodeURIComponent(selectedText));
+    iframeURL = iframeURL.replace(
+      'SHOWDETAIL',
+      transExt.find('.trans-ext__tool-up').is(':visible')
+    );
+    startLoadIframe();
+    transIframe.attr('src', iframeURL);
+  });
+}
+
+
 // 监听关闭 popup 按钮点击事件
 transExt.find('.trans-ext__tool-close').click(handleClosePopup);
 
@@ -186,6 +230,10 @@ transExt.find('.trans-ext__tool-close').click(handleClosePopup);
 transExt.find('.trans-ext__tool').click((event) => {
   const transTool = $(event.target).data('trans-tool');
   transIframe.eq(0)[0].contentWindow.postMessage({ changeTransTool: transTool }, '*');
+  // 避免 iframe 内页面出现异常、跳转验证页面等导致 iframe-message.js 无法加载进而导致无法切换其它翻译的问题
+  changeTransToolTimer = setTimeout(() => {
+    changeTransTool(transTool, '');
+  }, 200);
   ga('send', 'event', 'trans-tool', 'change', transTool);
 });
 
@@ -194,20 +242,7 @@ window.addEventListener('message', (event) => {
   const transTool = event.data.changeTransTool;
   if (transTool) {
     selectedText = event.data.keyword;
-    transExt.find('.trans-ext__tool').removeClass('active');
-    transExt
-      .find(`.trans-ext__tool[data-trans-tool=${transTool}]`)
-      .addClass('active');
-    data.set('transTool', transTool);
-    data.get(transTool, (val) => {
-      let iframeURL = val;
-      iframeURL = iframeURL.replace('KEYWORD', encodeURIComponent(selectedText));
-      iframeURL = iframeURL.replace(
-        'SHOWDETAIL',
-        transExt.find('.trans-ext__tool-up').is(':visible')
-      );
-      transIframe.attr('src', iframeURL);
-    });
+    changeTransTool(transTool, selectedText);
   }
 });
 
@@ -282,7 +317,8 @@ function calcInitPopupPosition() {
 
   // 选中文本下部能否放下弹窗
   const canPlaceBottom = selectedRect.top + selectedRect.height + transPopup.height() < window.innerHeight;
-  if (!canPlaceBottom) {
+  const canPlaceTop = selectedRect.top > transPopup.height();
+  if (!canPlaceBottom && canPlaceTop) {
     // 下方放不下弹窗，定位到上方
     popTop = $(document).scrollTop() + selectedRect.top - transPopup.height() - arrowHeight;
     arrowTop = $(document).scrollTop() + selectedRect.top - arrowHeight;
@@ -346,7 +382,6 @@ transBtn.mouseleave(() => {
   clearTimeout(hoverTimeoutId);
 });
 
-
 // 点击“译”字显示翻译内容页 popup
 transBtn.mouseup((event) => {
   clearTimeout(hoverTimeoutId);
@@ -369,6 +404,7 @@ transBtn.mouseup((event) => {
     activeTransTool.addClass('active');
 
     data.get(val, (val2) => {
+      startLoadIframe();
       transIframe.attr(
         'src',
         val2
@@ -402,6 +438,7 @@ $(document).mouseup((event) => {
               'SHOWDETAIL',
               transExt.find('.trans-ext__tool-up').is(':visible')
             );
+            startLoadIframe();
             transIframe.attr('src', iframeURL);
           });
         });

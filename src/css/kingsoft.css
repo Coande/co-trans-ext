@@ -75,6 +75,11 @@ body:not(.trans-ext-detail) .index .result {
   display: none;
 }
 
+/* 网站备案号 */
+.record {
+  display: none;
+}
+
 /* 偶尔会弹出全屏的App广告 */
 .download-swiper {
   display: none !important;

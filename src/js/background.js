@@ -12,10 +12,12 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
     // 且只有移动端才使用该api
     // https://fanyi.baidu.com/basetrans
     // https://fanyi.baidu.com/extendtrans
+    // 搜狗有时候会检测异常，为方便用户输入验证码，也改 user-agent
     if (
       details.url.indexOf('x-from=co-translate-extension') !== -1
       || details.url.indexOf('fanyi.baidu.com/basetrans') !== -1
       || details.url.indexOf('fanyi.baidu.com/extendtrans') !== -1
+      || details.url.indexOf('www.sogou.com/antispider') !== -1
     ) {
       let i = 0;
       for (const l = headers.length; i < l; ++i) {
@@ -37,7 +39,8 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
       // 百度翻译要特殊处理
       '*://fanyi.baidu.com/*',
       '*://*.youdao.com/*x-from=co-translate-extension*',
-      '*://*.ydstatic.com/*x-from=co-translate-extension*'
+      '*://*.ydstatic.com/*x-from=co-translate-extension*',
+      '*://*.sogou.com/antispider/*'
     ]
   },
   ['requestHeaders', 'blocking']

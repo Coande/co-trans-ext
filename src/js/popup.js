@@ -66,10 +66,11 @@ function changeTransTool(transTool, keyword) {
 // 添加翻译工具图标点击事件
 transExt.find('.trans-ext__tool').click((event) => {
   const transTool = $(event.target).data('trans-tool');
-  transIframe.eq(0)[0].contentWindow.postMessage({ changeTransTool: transTool }, '*');
+  // 避免 iframe 内页面出现异常、跳转验证页面等导致 iframe-message.js 无法加载进而导致无法切换其它翻译的问题
   changeTransToolTimer = setTimeout(() => {
     changeTransTool(transTool, '');
   }, 200);
+  transIframe.eq(0)[0].contentWindow.postMessage({ changeTransTool: transTool }, '*');
   ga('send', 'event', 'trans-tool', 'change', transTool);
 });
 

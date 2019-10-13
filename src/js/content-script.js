@@ -13,9 +13,9 @@ const transExt = $(`
       <co-div class="trans-ext__title-center">
         <co-i class="co-iconfont co-icon-sogou trans-ext__tool" data-trans-tool="sogou" title="搜狗翻译"></co-i>
         <co-i class="co-iconfont co-icon-baidu trans-ext__tool" data-trans-tool="baidu" title="百度翻译"></co-i>
-        <co-i class="co-iconfont co-icon-google1 trans-ext__tool" data-trans-tool="google" title="谷歌翻译"></co-i>
         <co-i class="co-iconfont co-icon-youdao trans-ext__tool" data-trans-tool="youdao" title="有道翻译"></co-i>
         <co-i class="co-iconfont co-icon-kingsoft trans-ext__tool" data-trans-tool="kingsoft" title="金山词霸"></co-i>
+        <co-i class="co-iconfont co-icon-google1 trans-ext__tool" data-trans-tool="google" title="谷歌翻译"></co-i>
       </co-div>
       <co-div class="trans-ext__title-right">
         <co-i class="co-iconfont co-icon-zhankai1 trans-ext__tool-down" title="显示更多"></co-i>
@@ -229,11 +229,11 @@ transExt.find('.trans-ext__tool-close').click(handleClosePopup);
 // 监听 popup 中翻译切换图标的点击事件
 transExt.find('.trans-ext__tool').click((event) => {
   const transTool = $(event.target).data('trans-tool');
-  transIframe.eq(0)[0].contentWindow.postMessage({ changeTransTool: transTool }, '*');
   // 避免 iframe 内页面出现异常、跳转验证页面等导致 iframe-message.js 无法加载进而导致无法切换其它翻译的问题
   changeTransToolTimer = setTimeout(() => {
     changeTransTool(transTool, '');
   }, 200);
+  transIframe.eq(0)[0].contentWindow.postMessage({ changeTransTool: transTool }, '*');
   ga('send', 'event', 'trans-tool', 'change', transTool);
 });
 

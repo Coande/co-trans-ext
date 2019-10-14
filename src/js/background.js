@@ -161,8 +161,12 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
       }
 
       // refer 中有x-from 且 当前没有 x-from 才需要处理
-      const needAddQuery = headers[i].value.indexOf('x-from=co-translate-extension') !== -1
+      let needAddQuery = headers[i].value.indexOf('x-from=co-translate-extension') !== -1
         && details.url.indexOf('x-from=co-translate-extension') === -1;
+
+      // 搜狗特殊处理，否则会出现反爬虫验证码
+      needAddQuery = needAddQuery && details.url.indexOf('fanyi.sogou.com/logtrace') === -1;
+
       if (needAddQuery) {
         requestsToRedirect[details.requestId] = headers[i].value;
         return {};

@@ -5,7 +5,11 @@
 
 /* 语言选择栏 */
 body:not(.trans-ext-detail) .fanyi-sfr-container .translang {
-  display: none !important;
+  /* 自动检测语言（如检测为中文）时，语言栏切换动画依赖该元素的可见性，
+    display 隐藏后会导致页面无法正常加载，所以设置 height 为 0 来隐藏元素 */
+  /* display: none !important; */
+  height: 0px;
+  overflow: hidden;
 }
 
 /* 内容输入框 */

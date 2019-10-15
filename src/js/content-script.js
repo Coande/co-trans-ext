@@ -474,7 +474,7 @@ let startLeft = 0;
 
 // popup 拖拽开始
 $(transPopup).on('mousedown', '.trans-ext__title-bar', (event) => {
-  if (isLockPosition) {
+  if (isLockPosition || !$(event.target).hasClass('trans-ext__title-bar')) {
     return;
   }
   setIsMoving(true);

@@ -26,7 +26,7 @@
 - clone 本项目到本地
 - 地址栏输入 `chrome://extensions/` 打开扩展管理页面
 - 开启 `开发者模式` / `Developer mode`
-- 加载 `已解压的扩展程序` / `Load unpacked`，选择本项目以加载扩展
+- `加载已解压的扩展程序` / `Load unpacked`，选择本项目以加载扩展
 
 
 ## 致谢

@@ -17,10 +17,14 @@
 
 ## 安装
 
-#### 方法一（推荐）
+#### 方法一
 适用于 Chrome 第三方浏览器，如 [360极速浏览器](https://browser.360.cn/ee/)。直接拖拽 crx 文件到浏览器窗口即可安装。另外，360极速浏览器还可以直接从[360极速浏览器扩展中心](https://ext.chrome.360.cn/webstore/detail/keigenoolicjcehlbpjcfhdjdmaochie)进行安装。
 
 #### 方法二
+适用于 Google Chrome 及 Chrome 第三方浏览器，可以从[chrome 网上应用店
+](https://chrome.google.com/webstore/detail/co-trans-ext-%E7%BF%BB%E8%AF%91%E5%B7%A5%E5%85%B7/ncfklglegjceemdfaiblepihhlkoafge?utm_source=chrome-ntp-icon)(需自备梯子)进行安装。
+
+#### 方法三
 适用于 Google Chrome，由于新版本 Google Chrome 限制了非 Chrome 应用商店内扩展的安装，而当前翻译扩展由于个人原因暂未上架 Chrome 应用商店，所以安装起来略麻烦，并不推荐。操作如下：
 
 - clone 本项目到本地

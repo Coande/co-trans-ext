@@ -1,5 +1,5 @@
 /* 页面头部 */
-header.gb_ja {
+header.gb_sa {
   display: none !important;
 }
 
@@ -62,5 +62,10 @@ body:not(.trans-ext-detail) .source-or-target-footer-button.speech-wrap {
 
 /* 底部历史记录按钮 */
 .gp-footer {
+  display: none;
+}
+
+/* 历史记录即将停用的通知 */
+.notification-area {
   display: none;
 }

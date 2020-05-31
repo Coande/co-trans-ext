@@ -89,3 +89,26 @@ body:not(.trans-ext-detail) .index .result {
 .index-cover-list-result {
   margin-top: 58px !important;
 }
+
+/* 跟读按钮（APP广告） */
+.dic-basic-voice img {
+  display: none;
+}
+
+/* 音标下的 APP 广告 */
+.dic-recommend {
+  display: none;
+}
+
+/* 页脚 app 广告 */
+.dic-info {
+  display: none;
+}
+
+.dic-bottom-list {
+  display: none !important;
+}
+
+.dic-bottom-btn {
+  display: none;
+}

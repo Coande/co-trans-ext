@@ -2,11 +2,13 @@
   display: none;
 }
 
-body:not(.trans-ext-detail) .J-langselect {
+/* 语言选择栏 */
+body:not(.trans-ext-detail) #J-langselect {
   display: none;
 }
 
-body:not(.trans-ext-detail) #textarea-source {
+/* 输入框 */
+body:not(.trans-ext-detail) #trans-input {
   display: none;
 }
 
@@ -15,8 +17,14 @@ body.trans-ext-detail #textarea-source {
   min-height: 26px;
 }
 
-body:not(.trans-ext-detail) .form-clear {
-  display: none;
+/* 去掉输入框滚动条 */
+#trans-input {
+  height: 26px !important;
+}
+
+/* 清空按钮 */
+body:not(.trans-ext-detail) .trans-box .trans-from .btn-clear {
+  display: none !important;
 }
 
 body:not(.trans-ext-detail) .box-from-text .box-voice {
@@ -25,6 +33,15 @@ body:not(.trans-ext-detail) .box-from-text .box-voice {
 
 body:not(.trans-ext-detail) .box-voice {
   padding-top: 0 !important;
+}
+
+/* 音标上边距 */
+body:not(.trans-ext-detail) .trans-box .operate-box {
+  padding-top: 0;
+}
+
+body:not(.trans-ext-detail) .trans-box .trans-from {
+  padding-top: 0;
 }
 
 body:not(.trans-ext-detail) .box-from-text {
@@ -36,17 +53,22 @@ body:not(.trans-ext-detail) .box-to-text pre {
 }
 
 /* 翻译结果右下角搜狗搜索按钮 */
-.box-to-text .toolbox .btn-search {
-  display: none;
+.trans-box .toolbox .btn-search {
+  display: none !important;
 }
 
 .ap-box {
   display: none !important;
 }
 
+/* 四六级真题、智能拍译 */
+.app-box2 {
+  display: none !important;
+}
+
 /* 页面脚部搜索app广告 */
 .J-promotion-cz-bottom {
-  display: none;
+  display: none !important;
 }
 
 body:not(.trans-ext-detail) .translation-from-text {

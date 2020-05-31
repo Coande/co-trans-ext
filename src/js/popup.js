@@ -24,10 +24,7 @@ function startLoadIframe() {
 data.get('transTool', (val) => {
   data.get(val, (val2) => {
     startLoadIframe();
-    transIframe.attr(
-      'src',
-      val2.replace('KEYWORD', '').replace('SHOWDETAIL', true)
-    );
+    loadIframeSrc(transIframe, val2.replace('KEYWORD', '').replace('SHOWDETAIL', true));
   });
 });
 
@@ -55,10 +52,7 @@ function changeTransTool(transTool, keyword) {
   data.get('transTool', (val) => {
     data.get(val, (val2) => {
       startLoadIframe();
-      transIframe.attr(
-        'src',
-        val2.replace('KEYWORD', keyword).replace('SHOWDETAIL', true)
-      );
+      loadIframeSrc(transIframe, val2.replace('KEYWORD', keyword).replace('SHOWDETAIL', true));
     });
   });
 }

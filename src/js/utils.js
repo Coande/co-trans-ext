@@ -36,3 +36,11 @@ function getQueryVariable(url, variable) {
   }
   return undefined;
 }
+
+// iframe 异步加载
+function loadIframeSrc(iframeObj, src) {
+  const iframe = iframeObj[0] || iframeObj;
+  setTimeout(() => {
+    iframe.setAttribute('src', src);
+  }, 0);
+}

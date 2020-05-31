@@ -29,7 +29,7 @@
     {
       "all_frames": true,
       "matches": ["*://*/*x-from=co-translate-extension*"],
-      "js": ["src/lib/jquery-3.4.0.slim.min.js"]
+      "js": ["src/lib/jquery-3.4.0.slim.min.js", "src/lib/loadCSS.js", "src/js/trans-css.js"]
     },
     {
       "all_frames": true,

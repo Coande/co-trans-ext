@@ -218,7 +218,7 @@ function changeTransTool(transTool, keyword) {
       transExt.find('.trans-ext__tool-up').is(':visible')
     );
     startLoadIframe();
-    transIframe.attr('src', iframeURL);
+    loadIframeSrc(transIframe, iframeURL);
   });
 }
 
@@ -405,12 +405,9 @@ transBtn.mouseup((event) => {
 
     data.get(val, (val2) => {
       startLoadIframe();
-      transIframe.attr(
-        'src',
-        val2
-          .replace('KEYWORD', encodeURIComponent(selectedText))
-          .replace('SHOWDETAIL', false)
-      );
+      loadIframeSrc(transIframe, val2
+        .replace('KEYWORD', encodeURIComponent(selectedText))
+        .replace('SHOWDETAIL', false));
     });
   });
   calcInitPopupPosition(event);
@@ -439,7 +436,7 @@ $(document).mouseup((event) => {
               transExt.find('.trans-ext__tool-up').is(':visible')
             );
             startLoadIframe();
-            transIframe.attr('src', iframeURL);
+            loadIframeSrc(transIframe, iframeURL);
           });
         });
       }

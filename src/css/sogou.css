@@ -82,3 +82,7 @@ body:not(.trans-ext-detail) .translation-from-text {
 .trans-group {
   display: none !important;
 }
+
+.report-entry {
+  display: none !important;
+}

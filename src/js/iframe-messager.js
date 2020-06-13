@@ -12,7 +12,7 @@ window.addEventListener('message', (event) => {
 window.addEventListener('message', (event) => {
   if (event.data.changeTransTool) {
     const keyword = $('#textarea-source').val() || $('#j-textarea').val()
-      || $('#source').val() || $('#index-input-main').val() || $('#formInput').val();
+      || $('#source').val() || $('#index-input-main').val() || $('#formInput').val() || $('#trans-input').val();
     window.parent.postMessage({ changeTransTool: event.data.changeTransTool, keyword: keyword || '' }, '*');
   }
 });

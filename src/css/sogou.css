@@ -74,3 +74,11 @@ body:not(.trans-ext-detail) .box-to-text pre {
 body:not(.trans-ext-detail) .translation-from-text {
   display: none;
 }
+
+.report-pop {
+  display: none !important;
+}
+
+.trans-group {
+  display: none !important;
+}

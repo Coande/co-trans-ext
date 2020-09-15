@@ -69,3 +69,8 @@ body:not(.trans-ext-detail) .source-or-target-footer-button.speech-wrap {
 .notification-area {
   display: none;
 }
+
+/* 顶部菜单 */
+#gb > div.gb_1d.gb_je.gb_ae.gb_9d {
+  display: none !important;
+}

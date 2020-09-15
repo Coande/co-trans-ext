@@ -90,3 +90,15 @@ body:not(.trans-ext-detail) .translation-from-text {
 .trans-wap-banner {
   display: none !important;
 }
+
+.responsive .content-wrap {
+  display: none !important;
+}
+
+.app-promotion-middle {
+  display: none !important;
+}
+
+.trans-box .toolbox .btn-feedback {
+  display: none !important;
+}

@@ -92,7 +92,7 @@ body:not(.trans-ext-detail) .translation-from-text {
 }
 
 .responsive .content-wrap {
-  display: none !important;
+  padding-top: 0 !important;
 }
 
 .app-promotion-middle {

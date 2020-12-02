@@ -51,6 +51,9 @@ body:not(.trans-ext-detail) .index .result {
 .dic-nav li:nth-child(2) {
   display: none;
 }
+.dic-nav-tab li:nth-child(2) {
+  display: none;
+}
 
 
 /* 柯林斯 词典 */

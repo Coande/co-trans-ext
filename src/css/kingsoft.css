@@ -115,3 +115,8 @@ body:not(.trans-ext-detail) .index .result {
 .dic-bottom-btn {
   display: none;
 }
+
+/* 高考讲解tab底部广告 */
+.dic-echart-mask {
+  display: none;
+}

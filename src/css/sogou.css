@@ -2,6 +2,11 @@
   display: none;
 }
 
+/* 头部广告 */
+.header-wap-new {
+  display: none !important;
+}
+
 /* 语言选择栏 */
 body:not(.trans-ext-detail) #J-langselect {
   display: none;

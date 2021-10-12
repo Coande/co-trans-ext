@@ -107,3 +107,23 @@ body:not(.trans-ext-detail) .translation-from-text {
 .trans-box .toolbox .btn-feedback {
   display: none !important;
 }
+
+/* 顶部广告空位 */
+.view .content-wrap {
+  padding-top: 0 !important;
+}
+
+/* 翻译结果下的广告 */
+.swiper-container {
+  display: none !important;
+}
+
+/* 反馈按钮左侧竖线 */
+.operate-box .operate-btn-box>div:first-child:after {
+  display: none !important;
+}
+
+/* 反馈按钮 */
+.btn-feedback {
+  display: none !important;
+}
